@@ -28,10 +28,14 @@
     "@tsconfig/node18": "^18.2.2",
     "@types/node": "^18.18.5",
     "@vitejs/plugin-vue": "^4.4.0",
+    "@vue/eslint-config-typescript": "^11.0.0",
     "@vue/tsconfig": "^0.4.0",
+    "@vue/typescript": "^1.8.5",
+    "eslint": "^8.0.0",
+    "eslint-plugin-vue": "^9.0.0",
     "npm-run-all2": "^6.1.1",
-    "typescript": "~5.2.0",
+    "typescript": "^5.3.03",
     "vite": "^5.1.7",
-    "vue-tsc": "^1.8.19"
+    "vue-tsc": "^1.8.27"
   }
 }
