@@ -50,7 +50,7 @@ const handleMouseClick = (event: any) => {
     )
 
     if (hex) {
-      let updatedHexes = grid.setHexagonsInShape(hex, shapeTwentyFour);
+      let updatedHexes = grid.setHexagonsInShape(hex, shapeThree);
       grid.drawHexes(svgRef.value, updatedHexes);
     }
   }

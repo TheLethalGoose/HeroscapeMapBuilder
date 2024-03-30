@@ -58,7 +58,7 @@ export class HeroscapeHex extends defineHex({ dimensions: 20, origin: "topLeft" 
             hexGroup.clear();
         }
 
-        const strokeColor = this.isSet ? this._type : '#ff6bec';
+        const strokeColor = this.isSet ? this._type : '#3a3a3a';
         const fillColor = this.isSet ? this._type : 'none';
 
         hexGroup.polygon(this.corners.map(({ x, y }) => [x, y]).flat())
@@ -72,7 +72,6 @@ export class HeroscapeHex extends defineHex({ dimensions: 20, origin: "topLeft" 
             }).attr({ x: this.x, y: this.y, 'dominant-baseline': 'middle'}).fill('#fff');
         }
 
-        // Zeichne die Grenzen in der `bordersGroup`
         for (const [index, startPoint] of this.borders.entries()) {
             if (index % 2 === 0) {
                 const endPoint = this.borders[index + 1];
@@ -83,6 +82,5 @@ export class HeroscapeHex extends defineHex({ dimensions: 20, origin: "topLeft" 
             }
         }
     }
-
 
 }
