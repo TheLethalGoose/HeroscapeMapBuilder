@@ -20,7 +20,7 @@ export class HeroscapeTileShapeOne extends HeroscapeTileShape {
     }
 
     rotate(): void {
-        console.log('Rotating');
+        console.log('Done');
     }
 }
 export class HeroscapeTileShapeTwo extends HeroscapeTileShape {
@@ -38,8 +38,8 @@ export class HeroscapeTileShapeTwo extends HeroscapeTileShape {
 export class HeroscapeTileShapeThree extends HeroscapeTileShape {
     constructor() {
         super([
-            [0, 0], [1, 0],
-            [0, 1]
+            [0, 0],
+            [-1, 1],[-0, 1]
         ]);
     }
 
@@ -58,7 +58,7 @@ export class HeroscapeTileShapeSeven extends HeroscapeTileShape {
     }
 
     rotate(): void {
-        console.log('Rotating');
+        console.log('Done');
     }
 }
 

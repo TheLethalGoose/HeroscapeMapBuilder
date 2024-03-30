@@ -49,9 +49,14 @@ const handleMouseClick = (event: any) => {
         { allowOutside: false }
     )
 
-    if (hex) {
+    if (hex && !hex.group) {
       let updatedHexes = grid.setHexagonsInShape(hex, shapeThree);
       grid.drawHexes(svgRef.value, updatedHexes);
+      return;
+    }
+
+    if (hex && hex.group) {
+      console.log("Rotate me")
     }
   }
 }
