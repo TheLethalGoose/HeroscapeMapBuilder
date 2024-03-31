@@ -1,63 +1,59 @@
 <template>
   <div>
-    <div ref="canvasRef" />
+    <div ref="canvasRef"/>
   </div>
 </template>
 
 <script setup lang="ts">
 import {onMounted, ref} from 'vue'
 import {rectangle} from "honeycomb-grid";
-import {Svg, SVG} from "@svgdotjs/svg.js"
+import {Container, SVG} from "@svgdotjs/svg.js"
 import {HeroscapeHex} from "@/model/HeroscapeHex.ts";
 import {HeroscapeGrid} from "@/model/HeroscapeGrid.ts";
-import {
-  HeroscapeTileShapeOne,
-  HeroscapeTileShapeSeven,
-  HeroscapeTileShapeThree,
-  HeroscapeTileShapeTwo, HeroscapeTileTwentyFour
-} from "@/model/HeroscapeTileShape.ts";
+import {GroupManager} from "@/model/HeroscapeHexGroup.ts";
+import {HeroscapeTileShapeTwo} from "@/model/HeroscapeTileShape.ts";
 
 const canvasRef = ref<HTMLElement | null>(null);
-const svgRef = ref<Svg | null>(null);
+const svgRef = ref<Container | null>(null);
 
-const hexesColRow = 50;
+const hexesColRow = 30;
 
-const grid = new HeroscapeGrid(HeroscapeHex, rectangle({ width: hexesColRow, height: hexesColRow}));
+const baseGrid = new HeroscapeGrid(HeroscapeHex, rectangle({width: hexesColRow, height: hexesColRow}));
+const grid_1 = new HeroscapeGrid(HeroscapeHex, rectangle({width: hexesColRow, height: hexesColRow}));
 
-
-const gridWidth = (HeroscapeHex.prototype.width*hexesColRow)+HeroscapeHex.prototype.width/2;
-const gridHeight = ((hexesColRow-1) * ( HeroscapeHex.prototype.height * 3/4) + HeroscapeHex.prototype.height);
+const gridWidth = (HeroscapeHex.prototype.width * hexesColRow) + HeroscapeHex.prototype.width / 2;
+const gridHeight = ((hexesColRow - 1) * (HeroscapeHex.prototype.height * 3 / 4) + HeroscapeHex.prototype.height);
 
 function initializeSvg() {
   if (canvasRef.value) {
-    const svg = SVG().addTo(canvasRef.value).size(gridWidth, gridHeight).id('grid');
-    svgRef.value = svg;
-    grid.drawHexes(svg);
+    const map = SVG().addTo(canvasRef.value).size(gridWidth, gridHeight).id('heroscape_map');
+    const baseGridGroup = map.group().id('baseGrid');
+    svgRef.value = map.group().id('layer_0')
+    baseGrid.drawHexes(baseGridGroup);
   }
 }
 
-const handleMouseClick = (event: any) => {
-  if (svgRef.value) {
-    const shapeOne = new HeroscapeTileShapeOne();
-    const shapeTwo = new HeroscapeTileShapeTwo();
-    const shapeThree = new HeroscapeTileShapeThree();
-    const shapeSeven = new HeroscapeTileShapeSeven();
-    const shapeTwentyFour = new HeroscapeTileTwentyFour();
+function handleMouseClick(event: any) {
 
-    const hex = grid.pointToHex(
-        { x: event.offsetX, y: event.offsetY },
-        { allowOutside: false }
-    )
+  const hex = grid_1.pointToHex(
+      {x: event.clientX, y: event.clientY},
+      {allowOutside: false}
+  )
+
+  if (svgRef.value) {
 
     if (hex && !hex.group) {
-      let updatedHexes = grid.setHexagonsInShape(hex, shapeThree);
-      grid.drawHexes(svgRef.value, updatedHexes);
+      const group = GroupManager.createGroup(hex, grid_1, HeroscapeTileShapeTwo);
+      group?.draw(svgRef.value);
       return;
     }
 
     if (hex && hex.group) {
-      console.log("Rotate me")
+      hex.group.rotate();
+      hex.group.draw(svgRef.value);
+      return
     }
+
   }
 }
 
@@ -65,6 +61,5 @@ onMounted(() => {
   initializeSvg();
   window.addEventListener('click', handleMouseClick);
 })
-
 
 </script>

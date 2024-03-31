@@ -1,83 +1,22 @@
-export abstract class HeroscapeTileShape {
-    protected coordinates: number[][];
+export type HeroscapeTileShape = number[][];
 
-    protected constructor(coordinates: number[][]) {
-        this.coordinates = coordinates;
-    }
+export const HeroscapeTileShapeOne: HeroscapeTileShape = [[0, 0]];
+export const HeroscapeTileShapeTwo: HeroscapeTileShape = [[0, 0], [1, 0]];
+export const HeroscapeTileShapeThree: HeroscapeTileShape = [
+    [0, 0],
+    [-1, 1], [-0, 1]
+];
 
-    abstract rotate(): void;
+export const HeroscapeTileShapeSeven: HeroscapeTileShape = [
+    [0, -1], [1, -1],
+    [-1, 0], [0, 0], [1, 0],
+    [-1, 1], [0, 1]
+];
 
-    getCoordinates(): number[][] {
-        return this.coordinates;
-    }
-}
-
-export class HeroscapeTileShapeOne extends HeroscapeTileShape {
-    constructor() {
-        super([
-            [0, 0]
-        ]);
-    }
-
-    rotate(): void {
-        console.log('Done');
-    }
-}
-export class HeroscapeTileShapeTwo extends HeroscapeTileShape {
-    constructor() {
-        super([
-            [0, 0], [1, 0],
-        ]);
-    }
-
-    rotate(): void {
-        console.log('Rotating');
-    }
-}
-
-export class HeroscapeTileShapeThree extends HeroscapeTileShape {
-    constructor() {
-        super([
-            [0, 0],
-            [-1, 1],[-0, 1]
-        ]);
-    }
-
-    rotate(): void {
-        console.log('Rotating');
-    }
-}
-
-export class HeroscapeTileShapeSeven extends HeroscapeTileShape {
-    constructor() {
-        super([
-            [0, -1], [1, -1],
-            [-1, 0], [0, 0], [1, 0],
-            [-1, 1], [0, 1]
-        ]);
-    }
-
-    rotate(): void {
-        console.log('Done');
-    }
-}
-
-export class HeroscapeTileTwentyFour extends HeroscapeTileShape {
-    constructor() {
-        super([
-            [-2, -2],[-1, -2], [0, -2], [1, -2], [2, -2],[3,-2],
-            [-2, -1],[-1, -1], [0, -1], [1, -1], [2, -1],
-            [-2, 0],[-1, 0], [0, 0], [1, 0], [2, 0],
-            [-1, 1], [0, 1], [1, 1],
-            [-1, 2], [0, 2], [1, 2],
-            [-1, 3], [0, 3],
-        ]);
-    }
-
-    rotate(): void {
-        console.log('Rotating');
-    }
-}
-
-
-
+export const HeroscapeTileShapeTwentyFour: HeroscapeTileShape = [[-2, -2], [-1, -2], [0, -2], [1, -2], [2, -2], [3, -2],
+    [-2, -1], [-1, -1], [0, -1], [1, -1], [2, -1],
+    [-2, 0], [-1, 0], [0, 0], [1, 0], [2, 0],
+    [-1, 1], [0, 1], [1, 1],
+    [-1, 2], [0, 2], [1, 2],
+    [-1, 3], [0, 3],
+]
