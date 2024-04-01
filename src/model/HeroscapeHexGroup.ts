@@ -91,9 +91,6 @@ export class HeroscapeHexGroup {
 
     clearMembers(): void {
         this.members.forEach(member => {
-            if (member !== this.center) {
-                member.group = null;
-            }
             member.resetBorders();
         });
         this.members = new Set([this.center]);
