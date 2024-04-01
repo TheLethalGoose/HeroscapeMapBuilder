@@ -1,7 +1,7 @@
 import {HeroscapeHex} from "./HeroscapeHex";
-import {HeroscapeTileShape} from "./HeroscapeTileShape";
+import {HeroscapeTileShape, HeroscapeTileShapeOne} from "./HeroscapeTileShape";
 import {HeroscapeGrid} from "@/model/HeroscapeGrid.ts";
-import {Container, G} from "@svgdotjs/svg.js";
+import {Container} from "@svgdotjs/svg.js";
 import {Direction} from "honeycomb-grid";
 
 export class GroupManager {
@@ -51,7 +51,7 @@ export class GroupManager {
 
 export class HeroscapeHexGroup {
     members: Set<HeroscapeHex> = new Set();
-    center: HeroscapeHex;
+    center: HeroscapeHex | null;
     shape: HeroscapeTileShape;
     grid: HeroscapeGrid<HeroscapeHex>;
 
@@ -65,11 +65,12 @@ export class HeroscapeHexGroup {
     }
 
     destroy() {
-        //TODO
+        this.clearMembers();
+        this.center = null;
     }
 
     groupId(): string{
-        return `group-${this.center.q}-${this.center.r}`;
+        return `group-${this.center?.q}-${this.center?.r}`;
     }
 
     addMember(hex: HeroscapeHex): void {
@@ -79,18 +80,6 @@ export class HeroscapeHexGroup {
 
     addMembers(hexesToAdd: Set<HeroscapeHex>): void {
         hexesToAdd.forEach(hex => this.addMember(hex));
-    }
-
-    removeMember(memberToRemove: HeroscapeHex): void {
-        this.members.delete(memberToRemove);
-        memberToRemove.group = null;
-    }
-
-    removeMembers(membersToRemove: Set<HeroscapeHex>): void {
-        membersToRemove.forEach(memberToRemove => {
-            this.members.delete(memberToRemove);
-            memberToRemove.group = null;
-        });
     }
 
     clearMembers(): void {
@@ -147,8 +136,12 @@ export class HeroscapeHexGroup {
         this.findGroupInSvg(container).remove();
     }
 
-
     rotate(center: HeroscapeHex): void {
+
+        if(this.shape === HeroscapeTileShapeOne){
+            return;
+        }
+
         const newMembers = new Set<HeroscapeHex>();
 
         for (const member of this.members) {
@@ -166,8 +159,8 @@ export class HeroscapeHexGroup {
 
         this.clearMembers();
         this.addMembers(newMembers);
-        this.center = center;
         this.setBorders();
+        this.center = center;
 
     }
 }
