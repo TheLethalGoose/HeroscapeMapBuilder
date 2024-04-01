@@ -16,7 +16,7 @@ import {HeroscapeTileShapeTwo} from "@/model/HeroscapeTileShape.ts";
 const canvasRef = ref<HTMLElement | null>(null);
 const svgRef = ref<Container | null>(null);
 
-const hexesColRow = 30;
+const hexesColRow = 50;
 
 const baseGrid = new HeroscapeGrid(HeroscapeHex, rectangle({width: hexesColRow, height: hexesColRow}));
 const grid_1 = new HeroscapeGrid(HeroscapeHex, rectangle({width: hexesColRow, height: hexesColRow}));
@@ -31,6 +31,15 @@ function initializeSvg() {
     svgRef.value = map.group().id('layer_0')
     baseGrid.drawHexes(baseGridGroup);
   }
+}
+
+function handleRightClick(event:any){
+  event.preventDefault();
+  const hex = grid_1.pointToHex(
+      {x: event.clientX, y: event.clientY},
+      {allowOutside: false}
+  )
+  console.log(hex);
 }
 
 function handleMouseClick(event: any) {
@@ -49,9 +58,10 @@ function handleMouseClick(event: any) {
     }
 
     if (hex && hex.group) {
-      hex.group.rotate();
+      hex.group.erase(svgRef.value);
+      hex.group.rotate(hex);
       hex.group.draw(svgRef.value);
-      return
+      return;
     }
 
   }
@@ -60,6 +70,7 @@ function handleMouseClick(event: any) {
 onMounted(() => {
   initializeSvg();
   window.addEventListener('click', handleMouseClick);
+  window.addEventListener('contextmenu', handleRightClick);
 })
 
 </script>

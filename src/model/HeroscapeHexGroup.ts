@@ -68,6 +68,10 @@ export class HeroscapeHexGroup {
         //TODO
     }
 
+    groupId(): string{
+        return `group-${this.center.q}-${this.center.r}`;
+    }
+
     addMember(hex: HeroscapeHex): void {
         hex.group = this;
         this.members.add(hex);
@@ -92,12 +96,12 @@ export class HeroscapeHexGroup {
     clearMembers(): void {
         this.members.forEach(member => {
             member.resetBorders();
+            member.group = null;
         });
-        this.members = new Set([this.center]);
+        this.members = new Set([]);
     }
 
     private setBorders(): void {
-
         this.members.forEach(member => {
             const cornerIndicesMap = new Map<Direction, [number, number]>([
                 [Direction.E, [0, 1]],
@@ -118,32 +122,39 @@ export class HeroscapeHexGroup {
                 }
             }
         })
-
     }
 
     draw(container: Container) {
-        const groupId = `group-${this.center.q}-${this.center.r}`;
 
-        let hexContainerGroup: G = container.findOne(`#${groupId}`) as G;
+        let hexContainerGroup = this.findGroupInSvg(container);
 
         if (hexContainerGroup) {
             hexContainerGroup.clear();
         }
 
         if (!hexContainerGroup) {
-            hexContainerGroup = container.group().id(groupId);
+            hexContainerGroup = container.group().id(this.groupId());
         }
 
         this.members.forEach(member => member.draw(hexContainerGroup));
     }
 
-    rotate(): void {
+    findGroupInSvg(container: Container): Container{
+        return container.findOne(`#${this.groupId()}`) as Container;
+    }
+
+    erase(container: Container){
+        this.findGroupInSvg(container).remove();
+    }
+
+
+    rotate(center: HeroscapeHex): void {
         const newMembers = new Set<HeroscapeHex>();
 
         for (const member of this.members) {
-            const [relQ, relR] = [member.q - this.center.q, member.r - this.center.r];
+            const [relQ, relR] = [member.q - center.q, member.r - center.r];
             const [newQRel, newRRel] = [-relR, relQ + relR];
-            const [newQ, newR] = [newQRel + this.center.q, newRRel + this.center.r];
+            const [newQ, newR] = [newQRel + center.q, newRRel + center.r];
 
             const hexAfterRotation = this.grid.getHex([newQ, newR]);
             if (!hexAfterRotation || (hexAfterRotation.group && hexAfterRotation.group !== this)) {
@@ -155,6 +166,7 @@ export class HeroscapeHexGroup {
 
         this.clearMembers();
         this.addMembers(newMembers);
+        this.center = center;
         this.setBorders();
 
     }

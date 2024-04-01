@@ -12,7 +12,7 @@ export class HeroscapeHex extends defineHex({dimensions: 20, origin: "topLeft"})
     private _group: HeroscapeHexGroup | null = null;
 
     private _type: string = '#00a43d';
-    private _verboose: boolean = true;
+    private _verboose: boolean = false;
 
     eguals(o: HeroscapeHex) {
         return (this.q === o.q && this.r === o.r)
