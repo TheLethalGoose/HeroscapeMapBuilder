@@ -16,10 +16,9 @@ import {TileShapeTwo} from "@/model/TileShape.ts";
 const canvasRef = ref<HTMLElement | null>(null);
 const svgRef = ref<Container | null>(null);
 
-const hexesColRow = 50;
+let selectedHexGroup: HexGroup | null = null;
 
-const baseGrid = new HeroscapeGrid(HeroscapeHex, rectangle({width: hexesColRow, height: hexesColRow}));
-const grid_1 = new HeroscapeGrid(HeroscapeHex, rectangle({width: hexesColRow, height: hexesColRow}));
+const hexesColRow = 15;
 
 const baseGrid = new DrawableGrid(Hex, rectangle({width: hexesColRow, height: hexesColRow}));
 const grid_1 = new DrawableGrid(Hex, rectangle({width: hexesColRow, height: hexesColRow}));
@@ -42,7 +41,20 @@ function handleRightClick(event:any){
       {x: event.clientX, y: event.clientY},
       {allowOutside: false}
   )
-  console.log(hex);
+
+  if(svgRef.value){
+    if (hex && hex.group) {
+      hex.group.selectGroup();
+      hex.group.draw(svgRef.value);
+      selectedHexGroup = hex.group;
+      return;
+    }
+
+    if(selectedHexGroup && hex && svgRef.value){
+      HexGroupManager.moveGroup(selectedHexGroup, hex, grid_1, svgRef.value);
+    }
+  }
+
 }
 
 function handleMouseClick(event: any) {
@@ -54,16 +66,25 @@ function handleMouseClick(event: any) {
 
   if (svgRef.value) {
 
+    const rotate = true;
+    const destroy = false;
+
     if (hex && !hex.group) {
-      const group = GroupManager.createGroup(hex, grid_1, HeroscapeTileShapeTwo);
+      const group = HexGroupManager.createGroup(hex, grid_1, TileShapeTwo);
       group?.draw(svgRef.value);
       return;
     }
 
-    if (hex && hex.group) {
+    if (hex && hex.group && rotate) {
       hex.group.erase(svgRef.value);
       hex.group.rotate(hex);
       hex.group.draw(svgRef.value);
+      return;
+    }
+
+    if (hex && hex.group && destroy) {
+      hex.group.erase(svgRef.value);
+      hex.group.destroy();
       return;
     }
 

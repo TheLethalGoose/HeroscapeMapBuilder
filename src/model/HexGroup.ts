@@ -9,7 +9,7 @@ export class HexGroupManager {
 
         let members = this.validateAndGenerateGroupMembers(center, grid, shape);
 
-        if (!members) {
+        if (!members.size) {
             console.log("Creation of Group failed: Hexagon blocked or outside grid.");
             return null;
         }
@@ -20,10 +20,10 @@ export class HexGroupManager {
     static validateAndGenerateGroupMembers(center: Hex, grid: DrawableGrid<Hex>, shape: TileShape): Set<Hex> {
 
         if (center.group) {
-            return [];
+            return new Set<Hex>([]);
         }
 
-        let hexesToUpdate = [center];
+        let hexesToUpdate = new Set<Hex>([center]);
 
         for (const [q, r] of shape) {
 
@@ -34,17 +34,37 @@ export class HexGroupManager {
                 let hexToUpdate = grid.getHex([newQ, newR]);
 
                 if (!hexToUpdate || hexToUpdate.group) {
-                    return [];
+                    return new Set<Hex>([]);
                 }
 
                 if (hexToUpdate) {
-                    hexesToUpdate.push(hexToUpdate);
+                    hexesToUpdate.add(hexToUpdate);
                 }
             }
 
         }
 
         return hexesToUpdate;
+
+    }
+
+    static moveGroup(origin: HexGroup, targetCenter: Hex, grid: DrawableGrid<Hex>, container: Container){
+
+        const newMembers = HexGroupManager.validateAndGenerateGroupMembers(targetCenter,grid,origin.shape);
+
+        if(!newMembers.size){
+            console.log("Moving failed: Hexagon blocked or outside grid.")
+            return;
+        }
+
+        origin.clearMembers();
+        origin.addMembers(newMembers);
+        origin.setBorders();
+        origin.erase(container);
+        origin.center = targetCenter;
+        origin.selected = false;
+
+        origin.draw(container);
 
     }
 }
@@ -61,22 +81,47 @@ export class HexGroup {
         this._shape = shape;
         this._grid = grid;
 
-        members.forEach(member => this.addMember(member));
+        this.addMembers(members);
         this.setBorders();
+    }
+
+
+    get center(): Hex | null {
+        return this._center;
+    }
+
+    set center(value: Hex | null) {
+        this._center = value;
+    }
+
+    get selected(): boolean {
+        return this._selected;
+    }
+
+    set selected(value: boolean) {
+        this._selected = value;
+    }
+
+    get shape(): TileShape {
+        return this._shape;
+    }
+
+    get members(): Set<Hex> {
+        return this._members;
     }
 
     destroy() {
         this.clearMembers();
-        this.center = null;
+        this._center = null;
     }
 
     groupId(): string{
-        return `group-${this.center?.q}-${this.center?.r}`;
+        return `group-${this._center?.q}-${this._center?.r}`;
     }
 
     addMember(hex: Hex): void {
         hex.group = this;
-        this.members.add(hex);
+        this._members.add(hex);
     }
 
     addMembers(hexesToAdd: Set<Hex>): void {
@@ -84,15 +129,19 @@ export class HexGroup {
     }
 
     clearMembers(): void {
-        this.members.forEach(member => {
+        this._members.forEach(member => {
             member.resetBorders();
             member.group = null;
         });
-        this.members = new Set([]);
+        this._members = new Set([]);
     }
 
-    private setBorders(): void {
-        this.members.forEach(member => {
+    setBorders(): void {
+
+        this._members.forEach(member => {
+
+            let borders = [];
+
             const cornerIndicesMap = new Map<Direction, [number, number]>([
                 [Direction.E, [0, 1]],
                 [Direction.SE, [1, 2]],
@@ -103,15 +152,23 @@ export class HexGroup {
             ]);
 
             for (let direction of [Direction.NE, Direction.E, Direction.SE, Direction.SW, Direction.W, Direction.NW]) {
-                let neighbor = this.grid.neighborOf([member.q, member.r], direction, {allowOutside: true});
-                if (neighbor && !this.members.has(neighbor)) {
+                let neighbor = this._grid.neighborOf([member.q, member.r], direction, {allowOutside: true});
+                if (neighbor && !this._members.has(neighbor)) {
                     const cornerIndices = cornerIndicesMap.get(direction);
                     if (cornerIndices) {
-                        member.borders.push(member.corners[cornerIndices[0]], member.corners[cornerIndices[1]]);
+                        borders.push(member.corners[cornerIndices[0]], member.corners[cornerIndices[1]]);
                     }
                 }
             }
+
+            member.borders = borders;
         })
+
+    }
+
+    selectGroup(){
+        this._selected = !this._selected;
+        this.setBorders();
     }
 
     draw(container: Container) {
@@ -126,7 +183,7 @@ export class HexGroup {
             hexContainerGroup = container.group().id(this.groupId());
         }
 
-        this.members.forEach(member => member.draw(hexContainerGroup));
+        this._members.forEach(member => member.draw(hexContainerGroup));
     }
 
     findGroupInSvg(container: Container): Container{
@@ -139,18 +196,18 @@ export class HexGroup {
 
     rotate(center: Hex): void {
 
-        if(this.shape === HeroscapeTileShapeOne){
+        if (this._shape === TileShapeOne) {
             return;
         }
 
         const newMembers = new Set<Hex>();
 
-        for (const member of this.members) {
+        for (const member of this._members) {
             const [relQ, relR] = [member.q - center.q, member.r - center.r];
             const [newQRel, newRRel] = [-relR, relQ + relR];
             const [newQ, newR] = [newQRel + center.q, newRRel + center.r];
 
-            const hexAfterRotation = this.grid.getHex([newQ, newR]);
+            const hexAfterRotation = this._grid.getHex([newQ, newR]);
             if (!hexAfterRotation || (hexAfterRotation.group && hexAfterRotation.group !== this)) {
                 console.log("Rotation failed: Hexagon blocked or outside grid.");
                 return;
@@ -161,7 +218,7 @@ export class HexGroup {
         this.clearMembers();
         this.addMembers(newMembers);
         this.setBorders();
-        this.center = center;
+        this._center = center;
 
     }
 }

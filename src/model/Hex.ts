@@ -44,17 +44,18 @@ export class Hex extends defineHex({dimensions: 20, origin: "topLeft"}) {
         const hexId = `hex-${this.q}-${this.r}`;
         const hexContainerGroup: G = container.group().id(hexId);
 
-        const strokeColor = this.group ? this._type : '#8a8486';
+        const gridStrokeColor = this.group ? this._type : '#8a8486';
+        const groupStrokeColor = this.group?.selected ? '#fd5c5c': '#fff';
         const fillColor = this.group ? this._type : 'none';
 
         hexContainerGroup.polygon(this.corners.map(({x, y}) => [x, y]).flat())
-            .stroke({width: 1, color: strokeColor})
+            .stroke({width: 1, color: gridStrokeColor})
             .fill(fillColor).opacity(90);
 
         for (const [index, startPoint] of this.borders.entries()) {
             if (index % 2 === 0) {
                 const endPoint = this.borders[index + 1];
-                hexContainerGroup.line(startPoint.x, startPoint.y, endPoint.x, endPoint.y).stroke({width: 1.5, color: '#ffffff'}).attr({'stroke-linecap': 'round'});
+                hexContainerGroup.line(startPoint.x, startPoint.y, endPoint.x, endPoint.y).stroke({width: 1.5, color: groupStrokeColor}).attr({'stroke-linecap': 'round'});
             }
         }
 
