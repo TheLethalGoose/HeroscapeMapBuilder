@@ -1,11 +1,11 @@
-import {HeroscapeHex} from "./HeroscapeHex";
-import {HeroscapeTileShape, HeroscapeTileShapeOne} from "./HeroscapeTileShape";
-import {HeroscapeGrid} from "@/model/HeroscapeGrid.ts";
+import {Hex} from "./Hex.ts";
+import {TileShape, TileShapeOne} from "./TileShape.ts";
+import {DrawableGrid} from "@/model/DrawableGrid.ts";
 import {Container} from "@svgdotjs/svg.js";
 import {Direction} from "honeycomb-grid";
 
-export class GroupManager {
-    static createGroup(center: HeroscapeHex, grid: HeroscapeGrid<HeroscapeHex>, shape: HeroscapeTileShape): HeroscapeHexGroup | null {
+export class HexGroupManager {
+    static createGroup(center: Hex, grid: DrawableGrid<Hex>, shape: TileShape): HexGroup | null {
 
         let members = this.validateAndGenerateGroupMembers(center, grid, shape);
 
@@ -14,10 +14,10 @@ export class GroupManager {
             return null;
         }
 
-        return new HeroscapeHexGroup(center, members, shape, grid);
+        return new HexGroup(center, members, shape, grid);
     }
 
-    private static validateAndGenerateGroupMembers(center: HeroscapeHex, grid: HeroscapeGrid<HeroscapeHex>, shape: HeroscapeTileShape): HeroscapeHex[] {
+    static validateAndGenerateGroupMembers(center: Hex, grid: DrawableGrid<Hex>, shape: TileShape): Set<Hex> {
 
         if (center.group) {
             return [];
@@ -49,16 +49,17 @@ export class GroupManager {
     }
 }
 
-export class HeroscapeHexGroup {
-    members: Set<HeroscapeHex> = new Set();
-    center: HeroscapeHex | null;
-    shape: HeroscapeTileShape;
-    grid: HeroscapeGrid<HeroscapeHex>;
+export class HexGroup {
+    private _members: Set<Hex> = new Set();
+    private _center: Hex | null;
+    private _grid: DrawableGrid<Hex>;
+    private _selected: boolean = false;
+    private readonly _shape: TileShape;
 
-    constructor(center: HeroscapeHex, members: HeroscapeHex[], shape: HeroscapeTileShape, grid: HeroscapeGrid<HeroscapeHex>) {
-        this.center = center;
-        this.shape = shape;
-        this.grid = grid;
+    constructor(center: Hex, members: Set<Hex>, shape: TileShape, grid: DrawableGrid<Hex>) {
+        this._center = center;
+        this._shape = shape;
+        this._grid = grid;
 
         members.forEach(member => this.addMember(member));
         this.setBorders();
@@ -73,12 +74,12 @@ export class HeroscapeHexGroup {
         return `group-${this.center?.q}-${this.center?.r}`;
     }
 
-    addMember(hex: HeroscapeHex): void {
+    addMember(hex: Hex): void {
         hex.group = this;
         this.members.add(hex);
     }
 
-    addMembers(hexesToAdd: Set<HeroscapeHex>): void {
+    addMembers(hexesToAdd: Set<Hex>): void {
         hexesToAdd.forEach(hex => this.addMember(hex));
     }
 
@@ -136,13 +137,13 @@ export class HeroscapeHexGroup {
         this.findGroupInSvg(container).remove();
     }
 
-    rotate(center: HeroscapeHex): void {
+    rotate(center: Hex): void {
 
         if(this.shape === HeroscapeTileShapeOne){
             return;
         }
 
-        const newMembers = new Set<HeroscapeHex>();
+        const newMembers = new Set<Hex>();
 
         for (const member of this.members) {
             const [relQ, relR] = [member.q - center.q, member.r - center.r];

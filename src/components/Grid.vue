@@ -8,10 +8,10 @@
 import {onMounted, ref} from 'vue'
 import {rectangle} from "honeycomb-grid";
 import {Container, SVG} from "@svgdotjs/svg.js"
-import {HeroscapeHex} from "@/model/HeroscapeHex.ts";
-import {HeroscapeGrid} from "@/model/HeroscapeGrid.ts";
-import {GroupManager} from "@/model/HeroscapeHexGroup.ts";
-import {HeroscapeTileShapeTwo} from "@/model/HeroscapeTileShape.ts";
+import {Hex} from "@/model/Hex.ts";
+import {DrawableGrid} from "@/model/DrawableGrid.ts";
+import {HexGroupManager, HexGroup} from "@/model/HexGroup.ts";
+import {TileShapeTwo} from "@/model/TileShape.ts";
 
 const canvasRef = ref<HTMLElement | null>(null);
 const svgRef = ref<Container | null>(null);
@@ -21,8 +21,11 @@ const hexesColRow = 50;
 const baseGrid = new HeroscapeGrid(HeroscapeHex, rectangle({width: hexesColRow, height: hexesColRow}));
 const grid_1 = new HeroscapeGrid(HeroscapeHex, rectangle({width: hexesColRow, height: hexesColRow}));
 
-const gridWidth = (HeroscapeHex.prototype.width * hexesColRow) + HeroscapeHex.prototype.width / 2;
-const gridHeight = ((hexesColRow - 1) * (HeroscapeHex.prototype.height * 3 / 4) + HeroscapeHex.prototype.height);
+const baseGrid = new DrawableGrid(Hex, rectangle({width: hexesColRow, height: hexesColRow}));
+const grid_1 = new DrawableGrid(Hex, rectangle({width: hexesColRow, height: hexesColRow}));
+
+const gridWidth = (Hex.prototype.width * hexesColRow) + Hex.prototype.width / 2;
+const gridHeight = ((hexesColRow - 1) * (Hex.prototype.height * 3 / 4) + Hex.prototype.height);
 
 function initializeSvg() {
   if (canvasRef.value) {

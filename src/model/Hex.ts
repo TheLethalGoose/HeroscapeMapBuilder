@@ -1,21 +1,21 @@
 import {defineHex, HexCoordinates, Point} from "honeycomb-grid";
 import {Container, G} from "@svgdotjs/svg.js";
-import {HeroscapeHexGroup} from "@/model/HeroscapeHexGroup.ts";
-import {Grass, HeroscapeTileType, Rock} from "@/model/HeroscapeTileType.ts";
+import {HexGroup} from "@/model/HexGroup.ts";
+import {Grass, TileType, Rock} from "@/model/TileType.ts";
 
-export class HeroscapeHex extends defineHex({dimensions: 20, origin: "topLeft"}) {
+export class Hex extends defineHex({dimensions: 20, origin: "topLeft"}) {
 
-    static create(coordinates: HexCoordinates): HeroscapeHex {
-        return new HeroscapeHex(coordinates);
+    static create(coordinates: HexCoordinates): Hex {
+        return new Hex(coordinates);
     }
 
     private _borders: Point[] = [];
-    private _group: HeroscapeHexGroup | null = null;
+    private _group: HexGroup | null = null;
 
-    private _type: HeroscapeTileType = Rock;
-    private _verboose: boolean = false;
+    private _type: TileType = Rock;
+    private _verboose: boolean = true;
 
-    eguals(o: HeroscapeHex) {
+    eguals(o: Hex) {
         return (this.q === o.q && this.r === o.r)
     }
 
@@ -27,11 +27,11 @@ export class HeroscapeHex extends defineHex({dimensions: 20, origin: "topLeft"})
         this._borders = value;
     }
 
-    get group(): HeroscapeHexGroup | null {
+    get group(): HexGroup | null {
         return this._group;
     }
 
-    set group(value: HeroscapeHexGroup | null) {
+    set group(value: HexGroup | null) {
         this._group = value;
     }
 
