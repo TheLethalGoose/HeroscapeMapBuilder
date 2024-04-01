@@ -1,6 +1,7 @@
 import {defineHex, HexCoordinates, Point} from "honeycomb-grid";
 import {Container, G} from "@svgdotjs/svg.js";
 import {HeroscapeHexGroup} from "@/model/HeroscapeHexGroup.ts";
+import {Grass, HeroscapeTileType, Rock} from "@/model/HeroscapeTileType.ts";
 
 export class HeroscapeHex extends defineHex({dimensions: 20, origin: "topLeft"}) {
 
@@ -11,7 +12,7 @@ export class HeroscapeHex extends defineHex({dimensions: 20, origin: "topLeft"})
     private _borders: Point[] = [];
     private _group: HeroscapeHexGroup | null = null;
 
-    private _type: string = '#00a43d';
+    private _type: HeroscapeTileType = Rock;
     private _verboose: boolean = false;
 
     eguals(o: HeroscapeHex) {
