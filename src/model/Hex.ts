@@ -1,5 +1,6 @@
 import {defineHex, HexCoordinates, Point} from "honeycomb-grid";
 import {Container, G} from "@svgdotjs/svg.js";
+import '@svgdotjs/svg.draggable.js'
 import {HexGroup} from "@/model/HexGroup.ts";
 import {Grass, TileType, Rock} from "@/model/TileType.ts";
 
@@ -12,8 +13,8 @@ export class Hex extends defineHex({dimensions: 20, origin: "topLeft"}) {
     private _borders: Point[] = [];
     private _group: HexGroup | null = null;
 
-    private _type: TileType = Rock;
-    private _verboose: boolean = true;
+    private _type: TileType | null = null;
+    private _verboose: boolean = false;
 
     eguals(o: Hex) {
         return (this.q === o.q && this.r === o.r)
@@ -44,9 +45,9 @@ export class Hex extends defineHex({dimensions: 20, origin: "topLeft"}) {
         const hexId = `hex-${this.q}-${this.r}`;
         const hexContainerGroup: G = container.group().id(hexId);
 
-        const gridStrokeColor = this.group ? this._type : '#8a8486';
+        const gridStrokeColor = (this.group && this._type) ? this._type : '#8a8486';
         const groupStrokeColor = this.group?.selected ? '#fd5c5c': '#fff';
-        const fillColor = this.group ? this._type : 'none';
+        const fillColor = (this.group && this._type) ? this._type : 'none';
 
         hexContainerGroup.polygon(this.corners.map(({x, y}) => [x, y]).flat())
             .stroke({width: 1, color: gridStrokeColor})

@@ -2,22 +2,24 @@ import {Hex} from "./Hex.ts";
 import {TileShape, TileShapeOne} from "./TileShape.ts";
 import {DrawableGrid} from "@/model/DrawableGrid.ts";
 import {Container} from "@svgdotjs/svg.js";
+import '@svgdotjs/svg.draggable.js'
 import {Direction} from "honeycomb-grid";
+import {TileType} from "@/model/TileType.ts";
 
 export class HexGroupManager {
-    static createGroup(center: Hex, grid: DrawableGrid<Hex>, shape: TileShape): HexGroup | null {
+    static createGroup(center: Hex, grid: DrawableGrid<Hex>, shape: TileShape, type?: TileType): HexGroup | undefined {
 
-        let members = this.validateAndGenerateGroupMembers(center, grid, shape);
+        let members = this.validateAndGenerateGroupMembers(center, grid, shape, type);
 
         if (!members.size) {
             console.log("Creation of Group failed: Hexagon blocked or outside grid.");
-            return null;
+            return undefined;
         }
 
         return new HexGroup(center, members, shape, grid);
     }
 
-    static validateAndGenerateGroupMembers(center: Hex, grid: DrawableGrid<Hex>, shape: TileShape): Set<Hex> {
+    static validateAndGenerateGroupMembers(center: Hex, grid: DrawableGrid<Hex>, shape: TileShape, type?: TileType): Set<Hex> {
 
         if (center.group) {
             return new Set<Hex>([]);

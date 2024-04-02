@@ -10,13 +10,10 @@
     "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.4.2",
-    "@fortawesome/free-brands-svg-icons": "^6.4.2",
-    "@fortawesome/free-regular-svg-icons": "^6.4.2",
-    "@fortawesome/free-solid-svg-icons": "^6.4.2",
-    "@fortawesome/vue-fontawesome": "^3.0.3",
+    "@floating-ui/vue": "^1.0.6",
+    "@svgdotjs/svg.draggable.js": "^3.0.3",
     "@svgdotjs/svg.js": "^3.2.0",
-    "floating-vue": "^2.0.0-beta.24",
+    "@vueuse/core": "^10.9.0",
     "honeycomb-grid": "^4.1.5",
     "pinia": "^2.1.7",
     "react-dnd-html5-backend": "^16.0.1",
