@@ -1,6 +1,9 @@
 <template>
-  <div class="fixed top-0 left-0 right-0 flex mt-5 justify-center">
-    <Toolbar class="mx-auto border-primary w-11">
+  <div class="fixed top-0 left-0 right-0 w-screen flex mt-5 justify-center ">
+    <Toolbar
+        class="border-primary w-full flex align-content-center"
+        style="margin-left: 20vw; margin-right: 20vw; height: 9vh"
+    >
       <template #start>
         <TerrainPick/>
       </template>
