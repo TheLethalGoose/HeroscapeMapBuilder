@@ -7,7 +7,7 @@
 <script setup lang="ts">
 import {onMounted, ref, watchEffect} from 'vue'
 import {rectangle} from "honeycomb-grid";
-import {ItemTypes} from "@/Types/ItemTypes.ts";
+import {ItemTypes} from "@/types/ItemTypes.ts";
 import {Container, SVG} from "@svgdotjs/svg.js"
 import {Hex} from "@/model/Hex.ts";
 import {DrawableGrid} from "@/model/DrawableGrid.ts";
@@ -53,30 +53,17 @@ const [collect, drop] = useDrop(() => ({
         {allowOutside: false}
     )
 
-    if(hex && activeGridSvgRef.value){
+    if(hex && activeGridSvgRef.value && canDrop.value){
       const newGroup = HexGroupManager.createGroup(hex, grid_1, TileShapeThree, Grass);
       newGroup?.draw(activeGridSvgRef.value);
     }
-
   },
-  collect: monitor => ({
-    isOver: monitor.isOver(),
-    canDrop: monitor.canDrop(),
-  }),
-}))
-
-const { canDrop, isOver } = toRefs(collect)
-
-onMounted(() => {
-  initializeSvg();
-})
-
-watchEffect(() => {
-  if(!isOutside.value && isOver && canDrop.value){
-    let hex: Hex = baseGrid.pointToHex(
-        {x: elementX.value, y: elementY.value},
-        {allowOutside: true}
-    )
+  hover: () => {
+    if(!isOutside.value && isOver.value && canDrop.value){
+      let hex: Hex = baseGrid.pointToHex(
+          {x: elementX.value, y: elementY.value},
+          {allowOutside: true}
+      )
 
       if ((!currentBaseGridHex.value || currentBaseGridHex.value !== hex) && baseGridSvgRef.value) {
         if (currentBaseGridGroup.value) {
@@ -88,13 +75,25 @@ watchEffect(() => {
         currentBaseGridGroup.value?.draw(baseGridSvgRef.value);
 
       }
-  }
+    }
+  },
+  end: () => { // :(
+    if(currentBaseGridGroup.value && baseGridSvgRef.value){
+      currentBaseGridGroup.value.erase(baseGridSvgRef.value);
+      currentBaseGridGroup.value.destroy();
+      currentBaseGridGroup.value = undefined;
+    }
+  },
+  collect: monitor => ({
+    isOver: monitor.isOver(),
+    canDrop: monitor.canDrop(),
+  }),
+}))
 
-  if(!canDrop.value && currentBaseGridGroup.value && baseGridSvgRef.value){
-    currentBaseGridGroup.value.erase(baseGridSvgRef.value);
-    currentBaseGridGroup.value.destroy();
-    currentBaseGridGroup.value = undefined;
-  }
+const { canDrop, isOver } = toRefs(collect)
+
+onMounted(() => {
+  initializeSvg();
 })
 
 </script>
