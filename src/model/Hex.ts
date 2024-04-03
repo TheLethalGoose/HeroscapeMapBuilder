@@ -13,7 +13,7 @@ export class Hex extends defineHex({dimensions: 20, origin: "topLeft"}) {
     private _borders: Point[] = [];
     private _group: HexGroup | null = null;
 
-    private _type: TileType | null = null;
+    private _type: TileType | undefined = undefined;
     private _verboose: boolean = false;
 
     eguals(o: Hex) {
@@ -22,6 +22,10 @@ export class Hex extends defineHex({dimensions: 20, origin: "topLeft"}) {
 
     get borders(): Point[] {
         return this._borders;
+    }
+
+    set type(value: TileType | undefined) {
+        this._type = value;
     }
 
     set borders(value: Point[]) {

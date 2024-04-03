@@ -5,15 +5,15 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, ref, watchEffect} from 'vue'
+import {onMounted, ref, watch, watchEffect} from 'vue'
 import {rectangle} from "honeycomb-grid";
 import {ItemTypes} from "@/types/ItemTypes.ts";
 import {Container, SVG} from "@svgdotjs/svg.js"
 import {Hex} from "@/model/Hex.ts";
 import {DrawableGrid} from "@/model/DrawableGrid.ts";
 import {HexGroup, HexGroupManager} from "@/model/HexGroup.ts";
-import {TileShapeThree} from "@/model/TileShape.ts";
-import {toRefs, useMouseInElement} from "@vueuse/core";
+import {TileShapeOne, TileShapeThree} from "@/model/TileShape.ts";
+import {toRefs, useMouseInElement, useMousePressed} from "@vueuse/core";
 import {useDrop} from "vue3-dnd";
 import {Grass} from "@/model/TileType.ts";
 
@@ -27,8 +27,8 @@ const currentBaseGridGroup = ref<HexGroup>();
 const hexesPerRow = 100;
 const hexesPerCol = 100;
 
-const gridWidth = (Hex.prototype.width * 100) + Hex.prototype.width / 2;
-const gridHeight = ((100 - 1) * (Hex.prototype.height * 3 / 4) + Hex.prototype.height);
+const gridWidth = (Hex.prototype.width * hexesPerCol) + Hex.prototype.width / 2;
+const gridHeight = ((hexesPerRow - 1) * (Hex.prototype.height * 3 / 4) + Hex.prototype.height);
 
 const baseGrid = new DrawableGrid(Hex, rectangle({width: hexesPerCol, height: hexesPerRow}));
 const grid_1 = new DrawableGrid(Hex, rectangle({width: hexesPerCol, height: hexesPerRow}));
@@ -91,6 +91,26 @@ const [collect, drop] = useDrop(() => ({
 }))
 
 const { canDrop, isOver } = toRefs(collect)
+
+const { pressed } = useMousePressed();
+
+watch(pressed, (newValue) => {
+  console.log("Derp")
+
+  if (newValue) {
+    let hex = grid_1.pointToHex(
+        {x: elementX.value, y: elementY.value},
+        {allowOutside: false}
+    )
+
+    if(hex && activeGridSvgRef.value){
+      const newGroup = HexGroupManager.createGroup(hex, grid_1, TileShapeOne, Grass);
+      newGroup?.draw(activeGridSvgRef.value);
+    }
+
+  }
+})
+
 
 onMounted(() => {
   initializeSvg();

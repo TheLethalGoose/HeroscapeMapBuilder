@@ -1,11 +1,16 @@
 <template>
-  <div :ref="drag" class="box" role="row"/>
+  <div :ref="drag" class="box" :role="preview ? 'BoxPreview' : 'Box'"/>
 </template>
+
 
 <script lang="ts" setup>
 import { useDrag } from 'vue3-dnd'
-import { ItemTypes } from '@/Types/ItemTypes.ts'
+import { ItemTypes } from '@/types/ItemTypes.ts'
 import { toRefs } from '@vueuse/core'
+
+const props = defineProps<{
+  preview?: boolean
+}>();
 
 
 const [collect, drag] = useDrag(() => ({

@@ -9,17 +9,17 @@ import {TileType} from "@/model/TileType.ts";
 export class HexGroupManager {
     static createGroup(center: Hex, grid: DrawableGrid<Hex>, shape: TileShape, type?: TileType): HexGroup | undefined {
 
-        let members = this.validateAndGenerateGroupMembers(center, grid, shape, type);
+        let members = this.validateAndGenerateGroupMembers(center, grid, shape);
 
         if (!members.size) {
             console.log("Creation of Group failed: Hexagon blocked or outside grid.");
             return undefined;
         }
 
-        return new HexGroup(center, members, shape, grid);
+        return new HexGroup(center, members, shape, grid, type);
     }
 
-    static validateAndGenerateGroupMembers(center: Hex, grid: DrawableGrid<Hex>, shape: TileShape, type?: TileType): Set<Hex> {
+    static validateAndGenerateGroupMembers(center: Hex, grid: DrawableGrid<Hex>, shape: TileShape): Set<Hex> {
 
         if (center.group) {
             return new Set<Hex>([]);
@@ -76,12 +76,14 @@ export class HexGroup {
     private _center: Hex | null;
     private _grid: DrawableGrid<Hex>;
     private _selected: boolean = false;
+    private _type?: TileType;
     private readonly _shape: TileShape;
 
-    constructor(center: Hex, members: Set<Hex>, shape: TileShape, grid: DrawableGrid<Hex>) {
+    constructor(center: Hex, members: Set<Hex>, shape: TileShape, grid: DrawableGrid<Hex>, type?: TileType) {
         this._center = center;
         this._shape = shape;
         this._grid = grid;
+        this._type = type;
 
         this.addMembers(members);
         this.setBorders();
@@ -123,6 +125,7 @@ export class HexGroup {
 
     addMember(hex: Hex): void {
         hex.group = this;
+        hex.type = this._type;
         this._members.add(hex);
     }
 
