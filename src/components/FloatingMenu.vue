@@ -1,25 +1,24 @@
 <template>
-  <div class="fixed">
-    <TileBox name="meh"/>
+  <div class="fixed top-0 left-0 right-0 flex mt-5 justify-center">
+    <Toolbar class="mx-auto border-primary w-11">
+      <template #start>
+        <TerrainPick/>
+      </template>
+      <template #center>
+        <TileCarousel/>
+      </template>
+      <template #end>
+        <Button disabled icon="pi pi-print" class="mr-2" severity="secondary" />
+        <Button disabled icon="pi pi-upload" class="mr-2" severity="secondary"/>
+        <Button disabled icon="pi pi-download" class="mr-2" severity="secondary"/>
+      </template>
+    </Toolbar>
   </div>
 </template>
 
 <script setup lang="ts">
-import TileBox from "@/components/TileBox.vue";
+
+import TerrainPick from "@/components/TerrainPick.vue";
+import TileCarousel from "@/components/TileCarousel.vue";
 
 </script>
-
-<style>
-.fixed{
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background-color: #424242;
-  padding: 15px;
-  border: 1px solid #ccc;
-  box-shadow: 0 9px 12px rgba(255, 255, 255, 0.3);
-  border-radius: 15px;
-  width: 100px;
-  min-height: 400px;
-}
-</style>

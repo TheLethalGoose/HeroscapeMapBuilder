@@ -2,6 +2,7 @@
   "name": "heroscapemaps",
   "version": "0.0.0",
   "private": true,
+  "packageManager": "yarn@1.22.19",
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
@@ -16,6 +17,9 @@
     "@vueuse/core": "^10.9.0",
     "honeycomb-grid": "^4.1.5",
     "pinia": "^2.1.7",
+    "primeflex": "^3.3.1",
+    "primeicons": "^7.0.0",
+    "primevue": "^3.50.0",
     "react-dnd-html5-backend": "^16.0.1",
     "vue": "^3.3.4",
     "vue-router": "^4.2.5",
