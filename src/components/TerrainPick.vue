@@ -1,7 +1,7 @@
 <template>
-  <img draggable="false" :alt="selectedTerrain?.name" :src="selectedTerrain?.path" class="mr-2 w-2"/>
+  <img draggable="false" :alt="selectedTerrain?.name" :src="selectedTerrain?.path" class="mr-2 h-2rem"/>
   <AutoComplete
-      class="w-8"
+      class="w-8rem"
       v-model="selectedTerrain"
       dropdown
       optionLabel="name"

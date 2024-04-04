@@ -29,7 +29,7 @@ const { isDragging } = toRefs(collect)
 <style scoped>
  .box{
    border: 1px dashed gray;
-   background-color: white;
+   background-color: #ee00ff;
    min-width: 50px;
    min-height: 50px;
    cursor: move;

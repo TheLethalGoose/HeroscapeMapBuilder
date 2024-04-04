@@ -6,14 +6,8 @@ import {getEmptyImage} from "react-dnd-html5-backend";
 import Tile from "@/components/Tile.vue"
 import {onMounted} from "vue";
 
-const props = defineProps<{
-  left: number;
-  top: number;
-}>();
-
 const [collect, drag, preview] = useDrag(() => ({
   type: ItemTypes.BOX,
-  item: props,
   collect: monitor => ({
     isDragging: monitor.isDragging(),
   }),
@@ -30,21 +24,21 @@ const {isDragging} = toRefs(collect)
 <template>
   <div :ref="drag"
        :style="{
-        left: `${props.left}px`,
-        top: `${props.top}px`,
         opacity: isDragging ? 0 : 1,
         height: isDragging ? 0 : '',
         }"
        class="box"
        role="DraggableBox"
   >
-    <Tile/>
+
   </div>
 </template>
 
 <style scoped>
 .box {
-  position: absolute;
+  width: 40px;
+  height: 40px;
+  border: 1px dashed;
   cursor: move;
 }
 </style>
