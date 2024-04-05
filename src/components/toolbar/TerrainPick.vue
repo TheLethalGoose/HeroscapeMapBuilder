@@ -1,26 +1,26 @@
 <template>
-  <img draggable="false" :alt="selectedTerrain?.name" :src="selectedTerrain?.path" class="mr-2 h-2rem"/>
-  <AutoComplete
-      class="w-8rem"
-      v-model="selectedTerrain"
-      dropdown
-      optionLabel="name"
-      :suggestions="filteredTerrain"
-      @complete="search"
-      append-to="self"
-  >
-    <template #option="slotProps">
-      <div class="flex align-options-center">
-        <img :alt="slotProps.option.name" :src="slotProps.option.path" class="mr-2 w-2"/>
-        <div class="align-self-center">{{ slotProps.option.name }}</div>
-      </div>
-    </template>
-  </AutoComplete>
+    <HexOne style="fill: #009b44;" class="w-2rem mr-2"/>
+    <AutoComplete
+        class="w-10rem h-2rem"
+        v-model="selectedTerrain"
+        dropdown
+        optionLabel="name"
+        :suggestions="filteredTerrain"
+        @complete="search"
+        append-to="self"
+    >
+      <template #option="slotProps">
+        <div class="flex align-options-center">
+          <HexOne style="fill: #1aff00;" class="w-1rem mr-2"/>
+          <div class="align-self-center">{{ slotProps.option.name }}</div>
+        </div>
+      </template>
+    </AutoComplete>
 </template>
 
 <script setup lang="ts">
-
 import { ref } from "vue";
+import HexOne from "@/assets/terrain/types/hexOne.svg"
 
 interface Terrain {
   name: string;
@@ -46,7 +46,7 @@ const search = (event: { query: string }) => {
         return t.name.toLowerCase().startsWith(event.query.toLowerCase());
       });
     }
-  }, 250);
+  }, 150);
 };
 
 </script>

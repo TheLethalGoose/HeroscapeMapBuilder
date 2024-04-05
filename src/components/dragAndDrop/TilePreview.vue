@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import TileBox from "@/components/Tile.vue";
+import TileBox from "@/components/dragAndDrop/Tile.vue";
 
 </script>
 
