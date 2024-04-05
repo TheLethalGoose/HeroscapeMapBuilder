@@ -12,7 +12,7 @@ import {Container, SVG} from "@svgdotjs/svg.js"
 import {Hex} from "@/model/Hex.ts";
 import {DrawableGrid} from "@/model/DrawableGrid.ts";
 import {HexGroup, HexGroupManager} from "@/model/HexGroup.ts";
-import {TileShapeOne, TileShapeThree} from "@/model/TileShape.ts";
+import {TileShapeOne, TileShapeSeven, TileShapeThree, TileShapeTwentyFour, TileShapeTwo} from "@/model/TileShape.ts";
 import {toRefs, useMouseInElement, useMousePressed} from "@vueuse/core";
 import {useDrop} from "vue3-dnd";
 import {Grass} from "@/model/TileType.ts";
@@ -24,8 +24,8 @@ const activeGridSvgRef = ref<Container | null>(null);
 const currentBaseGridHex = ref<Hex>();
 const currentBaseGridGroup = ref<HexGroup>();
 
-const hexesPerRow = 100;
-const hexesPerCol = 100;
+const hexesPerRow = 50;
+const hexesPerCol = 80;
 
 const gridWidth = (Hex.prototype.width * hexesPerCol) + Hex.prototype.width / 2;
 const gridHeight = ((hexesPerRow - 1) * (Hex.prototype.height * 3 / 4) + Hex.prototype.height);
@@ -43,6 +43,16 @@ function initializeSvg() {
   }
 }
 
+function throttle<T extends (...args: any[]) => void>(fn: T, delay: number): (...args: Parameters<T>) => void {
+  let lastCall = 0;
+  return (...args: Parameters<T>): void => {
+    const now = new Date().getTime();
+    if (now - lastCall < delay) return;
+    lastCall = now;
+    fn(...args);
+  };
+}
+
 const { elementX, elementY, isOutside  } = useMouseInElement(canvasRef);
 
 const [collect, drop] = useDrop(() => ({
@@ -58,7 +68,7 @@ const [collect, drop] = useDrop(() => ({
       newGroup?.draw(activeGridSvgRef.value);
     }
   },
-  hover: () => {
+  hover: throttle(()  => {
     if(!isOutside.value && isOver.value && canDrop.value){
       let hex: Hex = baseGrid.pointToHex(
           {x: elementX.value, y: elementY.value},
@@ -76,7 +86,7 @@ const [collect, drop] = useDrop(() => ({
 
       }
     }
-  },
+  },10),
   end: () => { // :(
     if(currentBaseGridGroup.value && baseGridSvgRef.value){
       currentBaseGridGroup.value.erase(baseGridSvgRef.value);
@@ -92,28 +102,9 @@ const [collect, drop] = useDrop(() => ({
 
 const { canDrop, isOver } = toRefs(collect)
 
-const { pressed } = useMousePressed();
-
-watch(pressed, (newValue) => {
-  console.log("Derp")
-
-  if (newValue) {
-    let hex = grid_1.pointToHex(
-        {x: elementX.value, y: elementY.value},
-        {allowOutside: false}
-    )
-
-    if(hex && activeGridSvgRef.value){
-      const newGroup = HexGroupManager.createGroup(hex, grid_1, TileShapeOne, Grass);
-      newGroup?.draw(activeGridSvgRef.value);
-    }
-
-  }
-})
-
-
 onMounted(() => {
   initializeSvg();
+  window.scrollTo(gridWidth/4, gridHeight/4);
 })
 
 </script>
