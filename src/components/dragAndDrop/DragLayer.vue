@@ -2,7 +2,7 @@
 import { XYCoord, useDragLayer } from 'vue3-dnd'
 import { ItemTypes } from '@/types/ItemTypes.ts'
 import { toRefs } from '@vueuse/core'
-import TilePreview from "@/components/TilePreview.vue";
+import TilePreview from "@/components/dragAndDrop/TilePreview.vue";
 
 function getItemStyles(initialOffset: XYCoord | null, currentOffset: XYCoord | null) {
   if (!initialOffset || !currentOffset) {
