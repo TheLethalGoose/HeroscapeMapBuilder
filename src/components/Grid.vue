@@ -5,15 +5,15 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, ref, watch, watchEffect} from 'vue'
+import {onMounted, ref} from 'vue'
 import {rectangle} from "honeycomb-grid";
 import {ItemTypes} from "@/types/ItemTypes.ts";
 import {Container, SVG} from "@svgdotjs/svg.js"
 import {Hex} from "@/model/Hex.ts";
 import {DrawableGrid} from "@/model/DrawableGrid.ts";
 import {HexGroup, HexGroupManager} from "@/model/HexGroup.ts";
-import {TileShapeOne, TileShapeSeven, TileShapeThree, TileShapeTwentyFour, TileShapeTwo} from "@/model/TileShape.ts";
-import {toRefs, useMouseInElement, useMousePressed} from "@vueuse/core";
+import {TileShapeThree} from "@/model/TileShape.ts";
+import {toRefs, useMouseInElement} from "@vueuse/core";
 import {useDrop} from "vue3-dnd";
 import {Grass} from "@/model/TileType.ts";
 
@@ -53,7 +53,7 @@ function throttle<T extends (...args: any[]) => void>(fn: T, delay: number): (..
   };
 }
 
-const { elementX, elementY, isOutside  } = useMouseInElement(canvasRef);
+const { elementX, elementY } = useMouseInElement(canvasRef);
 
 const [collect, drop] = useDrop(() => ({
   accept: ItemTypes.BOX,
@@ -69,10 +69,10 @@ const [collect, drop] = useDrop(() => ({
     }
   },
   hover: throttle(()  => {
-    if(!isOutside.value && isOver.value && canDrop.value){
-      let hex: Hex = baseGrid.pointToHex(
+    if(isOver.value && canDrop.value){
+      let hex: Hex | undefined = baseGrid.pointToHex(
           {x: elementX.value, y: elementY.value},
-          {allowOutside: true}
+          {allowOutside: false}
       )
 
       if ((!currentBaseGridHex.value || currentBaseGridHex.value !== hex) && baseGridSvgRef.value) {
@@ -86,7 +86,7 @@ const [collect, drop] = useDrop(() => ({
 
       }
     }
-  },10),
+  },60),
   end: () => { // :(
     if(currentBaseGridGroup.value && baseGridSvgRef.value){
       currentBaseGridGroup.value.erase(baseGridSvgRef.value);
