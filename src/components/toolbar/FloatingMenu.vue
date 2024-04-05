@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import TerrainPick from "@/components/toolbar/TerrainPick.vue";
+import TerrainPick from "@/components/toolbar/TerrainSelect.vue";
 import TileCarousel from "@/components/toolbar/TileCarousel.vue";
 import LayerSelect from "@/components/toolbar/LayerSelect.vue";
 

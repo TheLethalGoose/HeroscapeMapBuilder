@@ -10,7 +10,9 @@ import Two from "@/assets/terrain/types/hexTwo.svg"
 import Three from "@/assets/terrain/types/hexThree.svg"
 import Seven from "@/assets/terrain/types/hexSeven.svg"
 import TwentyFour from "@/assets/terrain/types/hexTwentyFour.svg"
+import {useTerrainStore} from "@/pinia/terrain.ts";
 
+const terrainStore = useTerrainStore();
 
 const [collect, drag, preview] = useDrag(() => ({
   type: ItemTypes.BOX,
@@ -28,8 +30,6 @@ onMounted(() => {
 })
 
 const {isDragging} = toRefs(collect);
-const fillColor = ref('#009b44');
-
 
 </script>
 
@@ -42,11 +42,11 @@ const fillColor = ref('#009b44');
        class="box mx-1"
        role="DraggableBox"
   >
-    <One v-if="props.hexes === 1" :style="{fill: fillColor}"/>
-    <Two v-if="props.hexes === 2" :style="{fill: fillColor}"/>
-    <Three v-if="props.hexes === 3" :style="{fill: fillColor}"/>
-    <Seven v-if="props.hexes === 7" :style="{fill: fillColor}"/>
-    <TwentyFour v-if="props.hexes === 24" :style="{fill: fillColor}"/>
+    <One v-if="props.hexes === 1" :style="{fill: terrainStore.selectedTerrain.terrain}"/>
+    <Two v-if="props.hexes === 2" :style="{fill: terrainStore.selectedTerrain.terrain}"/>
+    <Three v-if="props.hexes === 3" :style="{fill: terrainStore.selectedTerrain.terrain}"/>
+    <Seven v-if="props.hexes === 7" :style="{fill: terrainStore.selectedTerrain.terrain}"/>
+    <TwentyFour v-if="props.hexes === 24" :style="{fill: terrainStore.selectedTerrain.terrain}"/>
   </div>
 
 </template>
