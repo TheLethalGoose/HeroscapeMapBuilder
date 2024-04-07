@@ -39,7 +39,7 @@ const {isDragging} = toRefs(collect);
         opacity: isDragging ? 0.2 : 1,
         cursor: 'move'
         }"
-       class="box mx-1"
+       class="box mx-1 flex"
        role="DraggableBox"
   >
     <One v-if="props.hexes === 1" :style="{fill: terrainStore.selectedTerrain.terrain}"/>

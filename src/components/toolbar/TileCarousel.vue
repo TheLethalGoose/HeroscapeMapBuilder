@@ -2,13 +2,12 @@
     <Carousel
         circular
         :value="tiles"
-        pt:item:class="align-self-center"
-        pt:itemCloned:class="align-self-center"
-        container-class="align-items-center"
         :numVisible="5"
-        :numScroll="1"
+        :numScroll="5"
         :show-indicators="false"
-        class="w-19rem"
+        pt:item:class="align-self-center w-16rem flex-grow-0"
+        pt:itemCloned:class="align-self-center"
+        content-class="max-w-20rem"
         >
         <template #item="slotProps">
           <TileDraggable :hexes="slotProps.data"/>
