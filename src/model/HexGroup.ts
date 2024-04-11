@@ -27,7 +27,7 @@ export class HexGroupManager {
 
         let hexesToUpdate = new Set<Hex>([center]);
 
-        for (const [q, r] of shape) {
+        for (const [q, r] of shape.pattern) {
 
             if ((!(q === 0 && r === 0))) {
                 const newQ = q + center.q;

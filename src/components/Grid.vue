@@ -12,10 +12,9 @@ import {Container, SVG} from "@svgdotjs/svg.js"
 import {Hex} from "@/model/Hex.ts";
 import {DrawableGrid} from "@/model/DrawableGrid.ts";
 import {HexGroup, HexGroupManager} from "@/model/HexGroup.ts";
-import {TileShapeThree} from "@/model/TileShape.ts";
 import {toRefs, useMouseInElement} from "@vueuse/core";
 import {useDrop} from "vue3-dnd";
-import {Grass} from "@/model/TileType.ts";
+import {DragItem} from "@/interfaces/interfaces.ts";
 
 const canvasRef = ref<HTMLElement | null>(null);
 
@@ -36,7 +35,7 @@ const grid_1 = new DrawableGrid(Hex, rectangle({width: hexesPerCol, height: hexe
 
 function initializeSvg() {
   if (canvasRef.value) {
-    const map = SVG().addTo(canvasRef.value).size(gridWidth+1, gridHeight).id('heroscape_map');
+    const map = SVG().addTo(canvasRef.value).size(gridWidth + 1, gridHeight).id('heroscape_map');
     baseGridSvgRef.value = map.group().id('baseGrid');
     activeGridSvgRef.value = map.group().id('layer_0')
     baseGrid.drawHexes(baseGridSvgRef.value);
@@ -53,42 +52,42 @@ function throttle<T extends (...args: any[]) => void>(fn: T, delay: number): (..
   };
 }
 
-const { elementX, elementY } = useMouseInElement(canvasRef);
+const {elementX, elementY} = useMouseInElement(canvasRef);
 
 const [collect, drop] = useDrop(() => ({
   accept: ItemTypes.BOX,
-  drop: () => {
+  drop: (item: DragItem) => {
     let hex = grid_1.pointToHex(
         {x: elementX.value, y: elementY.value},
         {allowOutside: false}
     )
 
-    if(hex && activeGridSvgRef.value && canDrop.value){
-      const newGroup = HexGroupManager.createGroup(hex, grid_1, TileShapeThree, Grass);
+    if (hex && activeGridSvgRef.value && canDrop.value) {
+      const newGroup = HexGroupManager.createGroup(hex, grid_1, item.tileShape, item.tileType);
       newGroup?.draw(activeGridSvgRef.value);
     }
   },
-  hover: throttle(()  => {
-    if(isOver.value && canDrop.value){
+  hover: throttle((item: DragItem) => {
+    if (isOver.value && canDrop.value) {
       let hex: Hex | undefined = baseGrid.pointToHex(
           {x: elementX.value, y: elementY.value},
           {allowOutside: false}
       )
 
-      if ((!currentBaseGridHex.value || currentBaseGridHex.value !== hex) && baseGridSvgRef.value) {
+      if (hex && (!currentBaseGridHex.value || currentBaseGridHex.value !== hex) && baseGridSvgRef.value) {
         if (currentBaseGridGroup.value) {
           currentBaseGridGroup.value.erase(baseGridSvgRef.value);
           currentBaseGridGroup.value.destroy();
         }
         currentBaseGridHex.value = hex;
-        currentBaseGridGroup.value = HexGroupManager.createGroup(hex, baseGrid, TileShapeThree);
+        currentBaseGridGroup.value = HexGroupManager.createGroup(hex, baseGrid, item.tileShape);
         currentBaseGridGroup.value?.draw(baseGridSvgRef.value);
 
       }
     }
-  },60),
+  }, 60),
   end: () => { // :(
-    if(currentBaseGridGroup.value && baseGridSvgRef.value){
+    if (currentBaseGridGroup.value && baseGridSvgRef.value) {
       currentBaseGridGroup.value.erase(baseGridSvgRef.value);
       currentBaseGridGroup.value.destroy();
       currentBaseGridGroup.value = undefined;
@@ -100,11 +99,11 @@ const [collect, drop] = useDrop(() => ({
   }),
 }))
 
-const { canDrop, isOver } = toRefs(collect)
+const {canDrop, isOver} = toRefs(collect)
 
 onMounted(() => {
   initializeSvg();
-  window.scrollTo(gridWidth/4, gridHeight/4);
+  window.scrollTo(gridWidth / 4, gridHeight / 4);
 })
 
 </script>

@@ -1,6 +1,7 @@
+import {TileType} from "@/model/TileType.ts";
+import {TileShape} from "@/model/TileShape.ts";
+
 export interface DragItem {
-    id: string
-    type: string
-    left: number
-    top: number
+    tileType: TileType;
+    tileShape: TileShape;
 }
