@@ -76,7 +76,7 @@ export class HexGroup {
     private _center: Hex | null;
     private _grid: DrawableGrid<Hex>;
     private _selected: boolean = false;
-    private _type?: TileType;
+    private readonly _type?: TileType;
     private readonly _shape: TileShape;
 
     constructor(center: Hex, members: Set<Hex>, shape: TileShape, grid: DrawableGrid<Hex>, type?: TileType) {

@@ -1,25 +1,20 @@
 import {defineStore} from "pinia";
 import {Grass, TileType} from "@/model/TileType.ts";
 
-interface Terrain {
-    name: string;
-    terrain: TileType;
+interface TileTypeState {
+    selectedTileType: TileType;
 }
 
-interface TerrainState {
-    selectedTerrain: Terrain;
-}
-
-export const useTerrainStore = defineStore('terrain', {
-    state: (): TerrainState => ({
-        selectedTerrain: { name: 'Grass', terrain: Grass },
+export const useTileTypeStore = defineStore('tileType', {
+    state: (): TileTypeState => ({
+        selectedTileType: Grass,
     }),
     getters: {
-        getSelectedTerrain: (state) => state.selectedTerrain
+        getSelectedTileType: (state) => state.selectedTileType
     },
     actions: {
-        setSelectedTerrain(terrain: Terrain) {
-            this.selectedTerrain = terrain;
+        setSelectedTileType(tileType: TileType) {
+            this.selectedTileType = tileType;
         }
     }
 });

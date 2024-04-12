@@ -38,6 +38,6 @@ const {isDragging} = toRefs(collect);
        class="box mx-1 flex"
        role="DraggableBox"
   >
-    <component :is="props.tileShape.svg" :style="{fill: props.tileType}"/>
+    <component :is="props.tileShape.svg" :style="{fill: props.tileType.color}"/>
   </div>
 </template>
