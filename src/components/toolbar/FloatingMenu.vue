@@ -2,7 +2,7 @@
   <div class="fixed top-0 left-0 right-0 flex mt-3 justify-content-center">
     <Toolbar class="flex border-primary flex-nowrap" style="min-width: 70rem">
       <template #start>
-        <TerrainPick/>
+        <TileSelect/>
       </template>
       <template #center>
           <TileCarousel/>
@@ -20,8 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import TerrainPick from "@/components/toolbar/TerrainSelect.vue";
 import TileCarousel from "@/components/toolbar/TileCarousel.vue";
 import LayerSelect from "@/components/toolbar/LayerSelect.vue";
-
+import TileSelect from "@/components/toolbar/TileSelect.vue";
 </script>

@@ -8,25 +8,29 @@ import {markRaw, Raw} from "vue";
 export type TileShape = {
     pattern: number[][];
     svg: Raw<object>;
+    id: string;
 };
 export const TileShapeOne: TileShape = {
     pattern: [
         [0, 0]
     ],
-    svg: markRaw(svgOne)
+    svg: markRaw(svgOne),
+    id: 'hexOne'
 };
 export const TileShapeTwo: TileShape = {
     pattern: [
         [0, 0], [1, 0]
     ],
-    svg: markRaw(svgTwo)
+    svg: markRaw(svgTwo),
+    id: 'hexTwo'
 };
 export const TileShapeThree: TileShape = {
     pattern: [
         [0, 0],
         [-1, 1], [-0, 1]
     ],
-    svg: markRaw(svgThree)
+    svg: markRaw(svgThree),
+    id: 'hexThree'
 };
 export const TileShapeSeven: TileShape = {
     pattern: [
@@ -34,7 +38,8 @@ export const TileShapeSeven: TileShape = {
         [-1, 0], [0, 0], [1, 0],
         [-1, 1], [0, 1]
     ],
-    svg: markRaw(svgSeven)
+    svg: markRaw(svgSeven),
+    id: 'hexSeven'
 };
 export const TileShapeTwentyFour: TileShape = {
     pattern: [
@@ -45,5 +50,6 @@ export const TileShapeTwentyFour: TileShape = {
         [-1, 2], [0, 2], [1, 2],
         [-1, 3], [0, 3],
     ],
-    svg: markRaw(svgTwentyFour)
+    svg: markRaw(svgTwentyFour),
+    id: 'hexTwentyFour'
 }

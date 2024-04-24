@@ -1,27 +1,27 @@
 <template>
   <Carousel
-      :value="tileTypeStore.getSelectedTileType.shapes"
-      :key="tileTypeStore.getSelectedTileType.shapes.length"
+      :value="treeStore.getSelectedNodesData.getTiles()"
+      :key="treeStore.getSelectedNodesData.getTiles().length"
       :numVisible="numsVisible"
-      :numScroll="3"
-      :circular="tileTypeStore.getSelectedTileType.shapes.length > numsVisible"
+      :numScroll="5"
+      :circular="treeStore.getSelectedNodesData.getTiles().length > numsVisible"
       :show-indicators="false"
-      :pt:itemsContainer="tileTypeStore.getSelectedTileType.shapes.length < numsVisible ? 'justify-content-center' : '' "
+      :pt:itemsContainer="treeStore.getSelectedNodesData.getTiles().length < numsVisible ? 'justify-content-center min-h-full' : 'min-h-full'"
       pt:item:class="align-self-center flex-grow-0"
       pt:itemCloned:class="align-self-center"
-      content-class="w-23rem"
+      content-class="w-20rem"
   >
     <template #item="slotProps">
-      <TileDraggable :tile-shape="slotProps.data" :tile-type="tileTypeStore.getSelectedTileType"/>
+      <TileDraggable :tile-shape="slotProps.data.shape" :tile-type="slotProps.data.type"/>
     </template>
   </Carousel>
 </template>
 
 <script setup lang="ts">
 import TileDraggable from "@/components/dragAndDrop/TileDraggable.vue";
-import {useTileTypeStore} from "@/pinia/terrain.ts";
 import {ref} from "vue";
+import {useTreeStore} from "@/pinia/tree.ts";
 
-const numsVisible = ref(6);
-const tileTypeStore = useTileTypeStore();
+const treeStore = useTreeStore();
+const numsVisible = ref(5);
 </script>
