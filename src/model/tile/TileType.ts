@@ -27,7 +27,7 @@ export const Swamp: TileType = {
     id: 'Swamp'
 };
 export const SwampWater: TileType = {
-    color: '#0c4410',
+    color: '#a99454',
     id: 'SwampWater'
 };
 

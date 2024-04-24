@@ -1,10 +1,10 @@
 import {Hex} from "./Hex.ts";
-import {TileShape, TileShapeOne} from "./TileShape.ts";
-import {DrawableGrid} from "@/model/DrawableGrid.ts";
+import {TileShape, TileShapeOne} from "../tile/TileShape.ts";
+import {DrawableGrid} from "@/model/grid/DrawableGrid.ts";
 import {Container} from "@svgdotjs/svg.js";
 import '@svgdotjs/svg.draggable.js'
 import {Direction} from "honeycomb-grid";
-import {TileType} from "@/model/TileType.ts";
+import {TileType} from "@/model/tile/TileType.ts";
 
 export class HexGroupManager {
     static createGroup(center: Hex, grid: DrawableGrid<Hex>, shape: TileShape, type?: TileType): HexGroup | undefined {

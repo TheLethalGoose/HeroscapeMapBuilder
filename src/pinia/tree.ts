@@ -1,7 +1,7 @@
 import {defineStore} from 'pinia';
 import {TileService} from '@/data/TileService';
-import {TileCollection} from "@/model/Tile.ts";
 import {TreeNode} from "primevue/treenode";
+import {TileCollection} from "@/model/tile/TileCollection.ts";
 
 interface CheckboxState {
     partialChecked: boolean;
@@ -9,17 +9,17 @@ interface CheckboxState {
 }
 
 interface TreeStoreState {
-    nodes: TreeNode[] | null;
-    selectedValue: Record<string, CheckboxState> | null;
+    nodes: TreeNode[] | undefined;
+    selectedValue: Record<string, CheckboxState> | undefined;
 }
 
 export const useTreeStore = defineStore('treeStore', {
     state: (): TreeStoreState => ({
-        nodes: null,
+        nodes: undefined,
         selectedValue: {
             '0': {
-                partialChecked: false,
-                checked: true
+                partialChecked: true,
+                checked: false
             },
             '0-0': {
                 partialChecked: false,

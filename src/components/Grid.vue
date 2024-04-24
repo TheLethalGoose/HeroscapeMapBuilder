@@ -9,9 +9,9 @@ import {onMounted, ref} from 'vue'
 import {rectangle} from "honeycomb-grid";
 import {ItemTypes} from "@/types/ItemTypes.ts";
 import {Container, SVG} from "@svgdotjs/svg.js"
-import {Hex} from "@/model/Hex.ts";
-import {DrawableGrid} from "@/model/DrawableGrid.ts";
-import {HexGroup, HexGroupManager} from "@/model/HexGroup.ts";
+import {Hex} from "@/model/grid/Hex.ts";
+import {DrawableGrid} from "@/model/grid/DrawableGrid.ts";
+import {HexGroup, HexGroupManager} from "@/model/grid/HexGroup.ts";
 import {toRefs, useMouseInElement} from "@vueuse/core";
 import {useDrop} from "vue3-dnd";
 import {DragItem} from "@/interfaces/interfaces.ts";

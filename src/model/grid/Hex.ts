@@ -1,8 +1,8 @@
 import {defineHex, HexCoordinates, Point} from "honeycomb-grid";
 import {Container, G} from "@svgdotjs/svg.js";
 import '@svgdotjs/svg.draggable.js'
-import {HexGroup} from "@/model/HexGroup.ts";
-import {TileType} from "@/model/TileType.ts";
+import {HexGroup} from "@/model/grid/HexGroup.ts";
+import {TileType} from "@/model/tile/TileType.ts";
 
 export class Hex extends defineHex({dimensions: 20, origin: "topLeft"}) {
 

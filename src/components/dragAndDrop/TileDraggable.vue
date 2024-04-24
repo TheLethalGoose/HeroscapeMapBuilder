@@ -5,8 +5,8 @@ import {toRefs} from '@vueuse/core'
 import {getEmptyImage} from "react-dnd-html5-backend";
 import {onMounted} from "vue";
 
-import {TileType} from "@/model/TileType.ts";
-import {TileShape} from "@/model/TileShape.ts";
+import {TileType} from "@/model/tile/TileType.ts";
+import {TileShape} from "@/model/tile/TileShape.ts";
 
 const props = defineProps<{
   tileType: TileType;

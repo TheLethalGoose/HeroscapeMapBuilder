@@ -1,6 +1,7 @@
 import svgOne from "@/assets/terrain/types/hexOne.svg?component"
 import svgTwo from "@/assets/terrain/types/hexTwo.svg?component"
 import svgThree from "@/assets/terrain/types/hexThree.svg?component"
+import svgSix from "@/assets/terrain/types/hexSix.svg?component"
 import svgSeven from "@/assets/terrain/types/hexSeven.svg?component"
 import svgTwentyFour from "@/assets/terrain/types/hexTwentyFour.svg?component"
 import {markRaw, Raw} from "vue";
@@ -32,6 +33,14 @@ export const TileShapeThree: TileShape = {
     svg: markRaw(svgThree),
     id: 'hexThree'
 };
+export const TileShapeSix: TileShape = {
+    pattern: [
+        [-1, -1], [0, -1], [1, -1],
+        [-1, 0], [0, 0], [1, 0],
+    ],
+    svg: markRaw(svgSix),
+    id: 'hexSix'
+}
 export const TileShapeSeven: TileShape = {
     pattern: [
         [0, -1], [1, -1],

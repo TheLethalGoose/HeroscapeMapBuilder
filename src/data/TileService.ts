@@ -1,6 +1,14 @@
-import {TileShapeOne, TileShapeSeven, TileShapeThree, TileShapeTwentyFour, TileShapeTwo} from "@/model/TileShape.ts";
-import {Grass, Rock, Sand, Swamp, SwampWater, Water} from "@/model/TileType.ts";
-import {TileCollection, TileSetFactory} from "@/model/Tile.ts";
+import {
+    TileShapeOne,
+    TileShapeSeven,
+    TileShapeSix,
+    TileShapeThree,
+    TileShapeTwentyFour,
+    TileShapeTwo
+} from "@/model/tile/TileShape.ts";
+import {Grass, Rock, Sand, Swamp, SwampWater, Water} from "@/model/tile/TileType.ts";
+import {TileSetFactory} from "@/model/tile/TileSetFactory.ts";
+import {TileCollection} from "@/model/tile/TileCollection.ts";
 
 export const TileService = {
     getTreeNodesData() {
@@ -12,8 +20,12 @@ export const TileService = {
                     {
                         key: '0-0',
                         label: 'Rise Of The Valkyrie',
-                        checked: true,
                         data: TileSetFactory.createTileCollectionRotV()
+                    },
+                    {
+                        key: '0-1',
+                        label: 'Swarm of the Marro',
+                        data: TileSetFactory.createTileCollectionSotM()
                     },
                 ]
             },
@@ -43,6 +55,11 @@ export const TileService = {
                     },
                     {
                         key: '1-4',
+                        label: 'Hex Six',
+                        data: TileCollection.getTileCollectionForShape(TileShapeSix, [SwampWater])
+                    },
+                    {
+                        key: '1-5',
                         label: 'Hex Twenty-Four',
                         data: TileCollection.getTileCollectionForShape(TileShapeTwentyFour, [Grass, Rock, Sand, Swamp])
                     },
