@@ -45,7 +45,6 @@ export class Hex extends defineHex({dimensions: 20, origin: "topLeft"}) {
     }
 
     draw(container: Container) {
-
         const hexId = `hex-${this.q}-${this.r}`;
         const hexContainerGroup: G = container.group().id(hexId);
 

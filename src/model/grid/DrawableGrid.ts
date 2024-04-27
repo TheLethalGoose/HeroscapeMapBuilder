@@ -1,21 +1,18 @@
-import {Grid,} from "honeycomb-grid";
+import {Grid, HexConstructor, Traverser} from "honeycomb-grid";
 import {Hex} from "@/model/grid/Hex.ts";
 import {Container} from "@svgdotjs/svg.js";
 
 export class DrawableGrid<T extends Hex> extends Grid<T> {
+    public readonly svgGroup: Container;
 
-    drawHexes(container: Container): void;
-    drawHexes(container: Container, hexagons: T[]): void;
+    constructor(svgContainer: Container, gridId: string, hexClass: HexConstructor<T>, traverser: Traverser<T>) {
+        super(hexClass, traverser);
+        this.svgGroup = svgContainer.group().id(gridId);
+    }
 
-    drawHexes(container: Container, hexagons?: T[]): void {
-        if (hexagons) {
-            hexagons.forEach(hexagon => {
-                hexagon.draw(container)
-            });
-            return;
-        }
-        this.forEach(hex => {
-            hex.draw(container);
+    drawHexes(): void {
+        super.forEach(hex => {
+            hex.draw(this.svgGroup);
         })
     }
 }
