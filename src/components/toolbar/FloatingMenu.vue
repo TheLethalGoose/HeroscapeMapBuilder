@@ -11,8 +11,6 @@
         <LayerSelect/>
         <div class="ml-3 flex gap-2">
           <Button disabled icon="pi pi-print" severity="secondary" />
-          <Button disabled icon="pi pi-upload" severity="secondary"/>
-          <Button disabled icon="pi pi-download" severity="secondary"/>
         </div>
       </template>
     </Toolbar>

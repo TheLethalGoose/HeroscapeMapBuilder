@@ -14,7 +14,7 @@ export class Hex extends defineHex({dimensions: 20, origin: "topLeft"}) {
     private _group: HexGroup | null = null;
 
     private _type: TileType | undefined = undefined;
-    private _verboose: boolean = false;
+    private _verbose: boolean = false;
 
     eguals(o: Hex) {
         return (this.q === o.q && this.r === o.r)
@@ -63,7 +63,7 @@ export class Hex extends defineHex({dimensions: 20, origin: "topLeft"}) {
             }
         }
 
-        if (this._verboose) {
+        if (this._verbose) {
             hexContainerGroup.text(`Q: ${this.q}, R: ${this.r}\n ${this.group ? 'In Group' : ''}`).font({
                 size: this.dimensions.xRadius / 5,
                 anchor: 'middle',

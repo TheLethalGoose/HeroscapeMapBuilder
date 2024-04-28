@@ -20,7 +20,7 @@
 <script setup lang="ts">
 import TileDraggable from "@/components/dragAndDrop/TileDraggable.vue";
 import {ref} from "vue";
-import {useTreeStore} from "@/pinia/tree.ts";
+import {useTreeStore} from "@/pinia/treeStore.ts";
 
 const treeStore = useTreeStore();
 const numsVisible = ref(8);

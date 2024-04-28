@@ -22,7 +22,7 @@
 import {onMounted, ref} from 'vue';
 import ChevronDownIcon from 'primevue/icons/chevrondown';
 import ChevronRightIcon from 'primevue/icons/chevronright';
-import {useTreeStore} from "@/pinia/tree.ts";
+import {useTreeStore} from "@/pinia/treeStore.ts";
 import {TreeNode} from "primevue/treenode";
 
 const treeRef = ref();

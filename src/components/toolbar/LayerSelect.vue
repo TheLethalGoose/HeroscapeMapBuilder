@@ -2,9 +2,9 @@
   <InputNumber
       highlightOnFocus
       class="h-2rem"
-      v-model="value"
+      v-model="layerStore.activeLayerIndex"
       :min="1"
-      :max="30"
+      :max="layerStore.maxLayers"
       input-class="w-3rem"
       showButtons
       buttonLayout="horizontal"
@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import {ref} from "vue";
+import {useLayerStore} from "@/pinia/layerStore.ts";
 
-const value = ref(1);
+const layerStore = useLayerStore();
 </script>

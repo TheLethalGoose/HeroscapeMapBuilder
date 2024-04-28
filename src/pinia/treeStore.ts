@@ -1,5 +1,5 @@
 import {defineStore} from 'pinia';
-import {TileService} from '@/data/TileService';
+import {TileService} from '@/data/tileService.ts';
 import {TreeNode} from "primevue/treenode";
 import {TileCollection} from "@/model/tile/TileCollection.ts";
 
