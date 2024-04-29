@@ -19,13 +19,13 @@ export const useLayerStore = defineStore('layerStore', {
         activeLayerIndex: 1,
         maxLayers: 30,
         hexesPerCol: 80,
-        hexesPerRow: 50,
+        hexesPerRow: 30,
     }),
     getters: {
         getLayers: (state) => state.layers,
         getBaseLayer: (state) => state.layers[0] as DrawableGrid<Hex>,
-        getOutlineLayer: (state) => state.layers[state.maxLayers + 1] as DrawableGrid<Hex>,
-        getActiveLayer: (state) => state.layers[state.activeLayerIndex] as DrawableGrid<Hex>,
+        getOutlineLayer: (state) => state.layers[1] as DrawableGrid<Hex>,
+        getActiveLayer: (state) => state.layers[state.activeLayerIndex + 1] as DrawableGrid<Hex>,
         getLayer: (state) => {
             return (index: number) => state.layers[index] as DrawableGrid<Hex>
         },
@@ -41,8 +41,8 @@ export const useLayerStore = defineStore('layerStore', {
     actions: {
         addLayer(svg: Container) {
 
-            const layerId = this.layers.length === this.maxLayers + 1 ? 'layer_outline' :
-                this.layers.length > 0 ? `layer_${this.layers.length}` :
+            const layerId = this.layers.length === 1 ? 'layer_outline_opacity' :
+                this.layers.length > 1 ? `layer_${this.layers.length - 1}` :
                     'layer_base';
 
             const hexesPerCol = this.hexesPerCol;

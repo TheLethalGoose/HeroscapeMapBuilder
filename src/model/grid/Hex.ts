@@ -14,14 +14,19 @@ export class Hex extends defineHex({dimensions: 20, origin: "topLeft"}) {
     private _group: HexGroup | null = null;
 
     private _type: TileType | undefined = undefined;
+    private _opacityMask: boolean = false;
     private _verbose: boolean = false;
 
     eguals(o: Hex) {
         return (this.q === o.q && this.r === o.r)
     }
 
-    get borders(): Point[] {
-        return this._borders;
+    set opacityMask(value: boolean) {
+        this._opacityMask = value;
+    }
+
+    set verbose(value: boolean) {
+        this._verbose = value;
     }
 
     set type(value: TileType | undefined) {
@@ -40,31 +45,82 @@ export class Hex extends defineHex({dimensions: 20, origin: "topLeft"}) {
         this._group = value;
     }
 
-    resetBorders(): void {
+    public resetBorders(): void {
         this._borders = [];
     }
 
+    private getFillColor() {
+
+        if (this._opacityMask && !this._group) {
+            return '#000'
+        }
+
+        if (this._opacityMask && this._group) {
+            return '#fff'
+        }
+
+        if (this._group && this._type) {
+            return this._type.color;
+        }
+
+        return 'none';
+    }
+
+    private getGridStrokeColor() {
+
+        if (this._opacityMask && this._group) {
+            return '#fff'
+        }
+
+        if (this._group && this._type) {
+            return this._type.color
+        }
+
+        return '#414141';
+    }
+
+    private getGroupStrokeColor() {
+        return this._group?.selected ? '#74ff5e' : '#fff';
+    }
+
+    private getOpacity() {
+
+        if (this._opacityMask && !this._group) {
+            //How dark are hidden tiles
+            return 0.5
+        }
+
+        if (this._opacityMask && this._group) {
+            //White shadow of dragged group
+            return 0.1
+        }
+
+        return 1;
+    }
+
+
     draw(container: Container) {
-        const hexId = `hex-${this.q}-${this.r}`;
+        const hexId = `hex_${this.q}_${this.r}`;
         const hexContainerGroup: G = container.group().id(hexId);
 
-        const gridStrokeColor = (this.group && this._type) ? this._type.color : '#8a8486';
-        const groupStrokeColor = this.group?.selected ? '#fd5c5c': '#fff';
-        const fillColor = (this.group && this._type) ? this._type.color : 'none';
+        const gridStrokeColor = this.getGridStrokeColor();
+        const groupStrokeColor = this.getGroupStrokeColor();
+        const fillColor = this.getFillColor();
+        const opacity = this.getOpacity();
 
         hexContainerGroup.polygon(this.corners.map(({x, y}) => [x, y]).flat())
             .stroke({width: 1, color: gridStrokeColor})
-            .fill(fillColor).opacity(90);
+            .fill(fillColor).opacity(opacity);
 
-        for (const [index, startPoint] of this.borders.entries()) {
+        for (const [index, startPoint] of this._borders.entries()) {
             if (index % 2 === 0) {
-                const endPoint = this.borders[index + 1];
+                const endPoint = this._borders[index + 1];
                 hexContainerGroup.line(startPoint.x, startPoint.y, endPoint.x, endPoint.y).stroke({width: 1.5, color: groupStrokeColor}).attr({'stroke-linecap': 'round'});
             }
         }
 
         if (this._verbose) {
-            hexContainerGroup.text(`Q: ${this.q}, R: ${this.r}\n ${this.group ? 'In Group' : ''}`).font({
+            hexContainerGroup.text(`Q: ${this.q}, R: ${this.r}\n ${this._group ? 'In Group' : ''}`).font({
                 size: this.dimensions.xRadius / 5,
                 anchor: 'middle',
             }).attr({x: this.x, y: this.y, 'dominant-baseline': 'middle'}).fill('#fff');

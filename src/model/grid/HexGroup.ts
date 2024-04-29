@@ -12,7 +12,7 @@ export class HexGroupManager {
         let members = this.validateAndGenerateGroupMembers(center, grid, shape);
 
         if (!members.size) {
-            console.log("Creation of Group failed: Hexagon blocked or outside grid.");
+            console.log("Creation of Group failed: Hexagon blocked or outside in layer: " + grid.gridId);
             return undefined;
         }
 
@@ -55,7 +55,7 @@ export class HexGroupManager {
         const newMembers = HexGroupManager.validateAndGenerateGroupMembers(targetCenter,grid,origin.shape);
 
         if(!newMembers.size){
-            console.log("Moving failed: Hexagon blocked or outside grid.")
+            console.log("Moving failed: Hexagon blocked or outside in layer: " + grid.gridId);
             return;
         }
 
@@ -120,7 +120,7 @@ export class HexGroup {
     }
 
     groupId(): string{
-        return `group-${this._center?.q}-${this._center?.r}`;
+        return `group_${this._center?.q}_${this._center?.r}`;
     }
 
     addMember(hex: Hex): void {

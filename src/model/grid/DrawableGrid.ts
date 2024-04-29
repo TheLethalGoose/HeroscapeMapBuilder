@@ -4,9 +4,11 @@ import {Container} from "@svgdotjs/svg.js";
 
 export class DrawableGrid<T extends Hex> extends Grid<T> {
     public readonly svgGroup: Container;
+    public readonly gridId: string;
 
     constructor(svgContainer: Container, gridId: string, hexClass: HexConstructor<T>, traverser: Traverser<T>) {
         super(hexClass, traverser);
+        this.gridId = gridId;
         this.svgGroup = svgContainer.group().id(gridId);
     }
 

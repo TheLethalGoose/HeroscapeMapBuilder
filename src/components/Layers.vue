@@ -35,12 +35,13 @@ const initializeSvg = () => {
 }
 
 const initializeOpacityLayer = () => {
-  if (svgRef.value) {
-    opacityLayerRef.value = svgRef.value.group().id('layer_opacity');
+  const opacityLayer = layerStore.getOutlineLayer;
 
-    opacityLayerRef.value.rect().size(layerStore.getLayerWidth, layerStore.getLayerHeight).fill('#000').opacity(0.5);
-    layerStore.getActiveLayer.svgGroup.before(opacityLayerRef.value);
-  }
+  opacityLayerRef.value = opacityLayer.svgGroup;
+  opacityLayer.forEach((hex: Hex) => {
+    hex.opacityMask = true;
+  });
+  opacityLayer.drawHexes();
 }
 
 const initializeLayers = () => {
@@ -105,8 +106,8 @@ onMounted(() => {
 });
 
 watch(() => layerStore.activeLayerIndex, (newLayerIndex, oldLayerIndex) => {
-  const oldLayer = layerStore.getLayer(oldLayerIndex);
-  const newLayer = layerStore.getLayer(newLayerIndex);
+  const oldLayer = layerStore.getLayer(oldLayerIndex + 1);
+  const newLayer = layerStore.getLayer(newLayerIndex + 1);
 
   if (opacityLayerRef.value) {
     if (newLayerIndex < oldLayerIndex) {
