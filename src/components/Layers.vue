@@ -74,18 +74,30 @@ const [collect, drop] = useDrop(() => ({
   },
   hover: throttle((item: DragItem) => {
     if (isOver.value && canDrop.value) {
-      let hex: Hex | undefined = layerStore.getOutlineLayer.pointToHex(
+      let outlineLayerHex: Hex | undefined = layerStore.getOutlineLayer.pointToHex(
           {x: elementX.value, y: elementY.value},
           {allowOutside: false}
       )
 
-      if (hex && (!currentOutlineLayerHex.value || currentOutlineLayerHex.value !== hex)) {
+      let activeLayerHex: Hex | undefined = layerStore.getActiveLayer.pointToHex(
+          {x: elementX.value, y: elementY.value},
+          {allowOutside: false}
+      )
+
+      if (activeLayerHex && outlineLayerHex && (!currentOutlineLayerHex.value || currentOutlineLayerHex.value !== outlineLayerHex)) {
         if (currentOutlineLayerGroup.value) {
           currentOutlineLayerGroup.value.erase(layerStore.getOutlineLayer.svgGroup);
           currentOutlineLayerGroup.value.destroy();
         }
-        currentOutlineLayerHex.value = hex;
-        currentOutlineLayerGroup.value = HexGroupManager.createGroup(hex, layerStore.getOutlineLayer, item.tileShape);
+        currentOutlineLayerHex.value = outlineLayerHex;
+        currentOutlineLayerGroup.value = HexGroupManager.createGroup(outlineLayerHex, layerStore.getOutlineLayer, item.tileShape);
+
+        const validateActiveLayer = HexGroupManager.validateAndGenerateGroupMembers(activeLayerHex, layerStore.getActiveLayer, item.tileShape);
+
+        if (!validateActiveLayer.size && currentOutlineLayerGroup.value) {
+          currentOutlineLayerGroup.value.blocked = true;
+        }
+
         currentOutlineLayerGroup.value?.draw(layerStore.getOutlineLayer.svgGroup);
 
       }

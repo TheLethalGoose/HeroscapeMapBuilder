@@ -51,8 +51,12 @@ export class Hex extends defineHex({dimensions: 20, origin: "topLeft"}) {
 
     private getFillColor() {
 
+        if (this._group?.blocked) {
+            return '#ff3f3f'
+        }
+
         if (this._opacityMask && !this._group) {
-            return '#000'
+            return '#1f2028'
         }
 
         if (this._opacityMask && this._group) {
@@ -68,19 +72,24 @@ export class Hex extends defineHex({dimensions: 20, origin: "topLeft"}) {
 
     private getGridStrokeColor() {
 
-        if (this._opacityMask && this._group) {
-            return '#fff'
-        }
-
         if (this._group && this._type) {
             return this._type.color
         }
 
-        return '#414141';
+        return '#6e6e6e';
     }
 
     private getGroupStrokeColor() {
-        return this._group?.selected ? '#74ff5e' : '#fff';
+
+        if (this._group?.selected) {
+            return '#74ff5e'
+        }
+
+        if (this._group?.blocked) {
+            return '#ff2323'
+        }
+
+        return '#fff'
     }
 
     private getOpacity() {

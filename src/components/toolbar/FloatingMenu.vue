@@ -1,6 +1,6 @@
 <template>
   <div class="fixed top-0 left-0 right-0 flex mt-3 justify-content-center">
-    <Toolbar class="flex border-primary flex-nowrap" style="min-width: 70rem">
+    <Toolbar class="flex border-primary flex-nowrap" style="min-width: 70rem; min-height: 4.5rem">
       <template #start>
         <TileSelect/>
       </template>
@@ -9,8 +9,8 @@
       </template>
       <template #end>
         <LayerSelect/>
-        <div class="ml-3 flex gap-2">
-          <Button disabled icon="pi pi-print" severity="secondary" />
+        <div id="Buttons" class="ml-3 flex gap-2">
+
         </div>
       </template>
     </Toolbar>

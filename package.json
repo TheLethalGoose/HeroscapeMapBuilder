@@ -14,6 +14,7 @@
   "dependencies": {
     "@floating-ui/vue": "^1.0.6",
     "@svgdotjs/svg.draggable.js": "^3.0.3",
+    "@svgdotjs/svg.filter.js": "^3.0.3",
     "@svgdotjs/svg.js": "^3.2.0",
     "@vueuse/core": "^10.9.0",
     "honeycomb-grid": "^4.1.5",

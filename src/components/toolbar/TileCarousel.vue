@@ -11,6 +11,9 @@
       pt:itemCloned:class="align-self-center"
       content-class="w-29rem"
   >
+    <template #empty>
+      No Tiles Selected
+    </template>
     <template #item="slotProps">
       <TileDraggable :tile-shape="slotProps.data.shape" :tile-type="slotProps.data.type"/>
     </template>

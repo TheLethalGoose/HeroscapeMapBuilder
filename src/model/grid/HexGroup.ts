@@ -76,6 +76,7 @@ export class HexGroup {
     private _center: Hex | null;
     private _grid: DrawableGrid<Hex>;
     private _selected: boolean = false;
+    private _blocked: boolean = false;
     private readonly _type?: TileType;
     private readonly _shape: TileShape;
 
@@ -104,6 +105,14 @@ export class HexGroup {
 
     set selected(value: boolean) {
         this._selected = value;
+    }
+
+    get blocked(): boolean {
+        return this._blocked;
+    }
+
+    set blocked(value: boolean) {
+        this._blocked = value;
     }
 
     get shape(): TileShape {
