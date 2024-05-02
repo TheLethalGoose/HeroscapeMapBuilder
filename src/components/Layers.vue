@@ -1,6 +1,7 @@
 <template>
   <div id="dropRef" :ref="drop">
-    <div id="svgRef" ref="canvasRef"/>
+    <div
+        id="svgRef" ref="canvasRef"/>
   </div>
 </template>
 
@@ -30,7 +31,7 @@ const {elementX, elementY} = useMouseInElement(canvasRef);
 
 const initializeSvg = () => {
   if (canvasRef.value) {
-    svgRef.value = SVG().addTo(canvasRef.value).size(layerStore.getLayerWidth + 1, layerStore.getLayerHeight).id('map');
+    svgRef.value = SVG().addTo(canvasRef.value).size(layerStore.getLayerWidth, layerStore.getLayerHeight).id('map');
   }
 }
 
