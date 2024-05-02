@@ -20,6 +20,10 @@ export const Water: TileType = {
     color: '#00c8fa',
     id: 'Water'
 };
+export const Ruins: TileType = {
+    color: '#a10000',
+    id: 'Ruins'
+};
 
 // SotM
 export const Swamp: TileType = {

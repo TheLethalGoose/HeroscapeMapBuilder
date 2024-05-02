@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg width="100%" height="100%" viewBox="0 0 215 197" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;">
+<svg width="100%" height="100%" viewBox="0 0 215 197" version="1.1" xmlns="http://www.w3.org/2000/svg"
+     xml:space="preserve"
+     style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;">
     <g transform="matrix(1,0,0,1,0.00232922,0.000329219)">
         <g id="HexTwentyFour" transform="matrix(1,0,0,1,-1434.51,-566.908)">
             <path d="M1610.81,760L1593.49,750L1576.17,760L1558.85,750L1558.85,730L1541.53,720L1541.53,700L1524.2,690L1524.2,670L1506.88,660L1489.56,670L1472.24,660L1472.24,640L1454.92,630L1454.92,610L1437.6,600L1437.6,580L1454.92,570L1472.24,580L1489.56,570L1506.88,580L1524.2,570L1541.53,580L1558.85,570L1576.17,580L1593.49,570L1610.81,580L1628.13,570L1645.45,580L1645.45,600L1628.13,610L1628.13,630L1645.45,640L1645.45,660L1628.13,670L1628.13,690L1645.45,700L1645.45,720L1628.13,730L1628.13,750L1610.81,760" style="fill-rule:nonzero;stroke:white;stroke-width:4.5px;"/>

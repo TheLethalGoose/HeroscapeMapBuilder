@@ -52,7 +52,7 @@ export class Hex extends defineHex({dimensions: 20, origin: "topLeft"}) {
     private getFillColor() {
 
         if (this._group?.blocked) {
-            return '#ff3f3f'
+            return '#ff5151'
         }
 
         if (this._opacityMask && !this._group) {
@@ -63,6 +63,10 @@ export class Hex extends defineHex({dimensions: 20, origin: "topLeft"}) {
             return '#fff'
         }
 
+        if (this._group?.shape.obstacle && this._type) {
+            return this._type.color;
+        }
+
         if (this._group && this._type) {
             return this._type.color;
         }
@@ -71,6 +75,10 @@ export class Hex extends defineHex({dimensions: 20, origin: "topLeft"}) {
     }
 
     private getGridStrokeColor() {
+
+        if (this._group?.shape.obstacle) {
+            return 'none';
+        }
 
         if (this._group && this._type) {
             return this._type.color
@@ -85,8 +93,12 @@ export class Hex extends defineHex({dimensions: 20, origin: "topLeft"}) {
             return '#74ff5e'
         }
 
+        if (this._group?.shape.obstacle) {
+            return this._type?.color;
+        }
+
         if (this._group?.blocked) {
-            return '#ff2323'
+            return '#ff5151'
         }
 
         return '#fff'
@@ -104,6 +116,10 @@ export class Hex extends defineHex({dimensions: 20, origin: "topLeft"}) {
             return 0.1
         }
 
+        if (this._group?.shape.obstacle) {
+            return 0.2
+        }
+
         return 1;
     }
 
@@ -116,6 +132,7 @@ export class Hex extends defineHex({dimensions: 20, origin: "topLeft"}) {
         const groupStrokeColor = this.getGroupStrokeColor();
         const fillColor = this.getFillColor();
         const opacity = this.getOpacity();
+        const strokeWidth = this._group?.shape.obstacle ? 5 : 1.5;
 
         hexContainerGroup.polygon(this.corners.map(({x, y}) => [x, y]).flat())
             .stroke({width: 1, color: gridStrokeColor})
@@ -124,7 +141,10 @@ export class Hex extends defineHex({dimensions: 20, origin: "topLeft"}) {
         for (const [index, startPoint] of this._borders.entries()) {
             if (index % 2 === 0) {
                 const endPoint = this._borders[index + 1];
-                hexContainerGroup.line(startPoint.x, startPoint.y, endPoint.x, endPoint.y).stroke({width: 1.5, color: groupStrokeColor}).attr({'stroke-linecap': 'round'});
+                hexContainerGroup.line(startPoint.x, startPoint.y, endPoint.x, endPoint.y).stroke({
+                    width: strokeWidth,
+                    color: groupStrokeColor
+                }).attr({'stroke-linecap': 'round'});
             }
         }
 

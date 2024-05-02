@@ -1,4 +1,6 @@
 import {
+    RuinShapeThree,
+    RuinShapeTwo,
     TileShape,
     TileShapeOne,
     TileShapeSeven,
@@ -7,7 +9,7 @@ import {
     TileShapeTwentyFour,
     TileShapeTwo
 } from "@/model/tile/TileShape.ts";
-import {Grass, Rock, Sand, Swamp, SwampWater, Water} from "@/model/tile/TileType.ts";
+import {Grass, Rock, Ruins, Sand, Swamp, SwampWater, Water} from "@/model/tile/TileType.ts";
 import {TileCollection} from "@/model/tile/TileCollection.ts";
 
 export class TileSetFactory {
@@ -15,6 +17,7 @@ export class TileSetFactory {
     static createTileCollectionRotV(): TileCollection {
         const collection: TileCollection = new TileCollection();
         const commonShapes: TileShape[] = [TileShapeOne, TileShapeTwo, TileShapeThree, TileShapeSeven, TileShapeTwentyFour];
+        const obstacleShapes: TileShape[] = [RuinShapeTwo, RuinShapeThree]
 
         const types = [
             {type: Grass, shapes: commonShapes},
@@ -24,9 +27,13 @@ export class TileSetFactory {
         ];
 
         types.forEach(({type, shapes}) => {
-            let tiles = TileCollection.getTileCollectionForType(type, shapes);
+            const tiles = TileCollection.getTileCollectionForType(type, shapes);
             collection.addTiles(tiles.getTiles());
         });
+
+        const ruins = TileCollection.getTileCollectionForType(Ruins, obstacleShapes);
+
+        collection.addTiles(ruins.getTiles());
 
         return collection;
     }

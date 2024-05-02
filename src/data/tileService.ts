@@ -1,4 +1,6 @@
 import {
+    RuinShapeThree,
+    RuinShapeTwo,
     TileShapeOne,
     TileShapeSeven,
     TileShapeSix,
@@ -6,7 +8,7 @@ import {
     TileShapeTwentyFour,
     TileShapeTwo
 } from "@/model/tile/TileShape.ts";
-import {Grass, Rock, Sand, Swamp, SwampWater, Water} from "@/model/tile/TileType.ts";
+import {Grass, Rock, Ruins, Sand, Swamp, SwampWater, Water} from "@/model/tile/TileType.ts";
 import {TileSetFactory} from "@/model/tile/TileSetFactory.ts";
 import {TileCollection} from "@/model/tile/TileCollection.ts";
 
@@ -109,6 +111,22 @@ export const TileService = {
                                 key: '2-1-1',
                                 label: 'Swamp Water',
                                 data: TileCollection.getTileCollectionForType(SwampWater, [TileShapeOne])
+                            },
+                        ]
+                    },
+                    {
+                        key: '2-2',
+                        label: 'Obstacles',
+                        children: [
+                            {
+                                key: '2-2-0',
+                                label: 'Ruins Two',
+                                data: TileCollection.getTileCollectionForType(Ruins, [RuinShapeTwo])
+                            },
+                            {
+                                key: '2-2-1',
+                                label: 'Ruins Three',
+                                data: TileCollection.getTileCollectionForType(Ruins, [RuinShapeThree])
                             },
                         ]
                     }

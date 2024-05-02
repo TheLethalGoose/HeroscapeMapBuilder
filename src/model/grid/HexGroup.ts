@@ -152,6 +152,8 @@ export class HexGroup {
 
     setBorders(): void {
 
+        let memberIndex = 0;
+
         this._members.forEach(member => {
 
             let borders = [];
@@ -165,9 +167,17 @@ export class HexGroup {
                 [Direction.NE, [5, 0]]
             ]);
 
-            for (let direction of [Direction.NE, Direction.E, Direction.SE, Direction.SW, Direction.W, Direction.NW]) {
+            let directions = [Direction.NE, Direction.E, Direction.SE, Direction.SW, Direction.W, Direction.NW];
+
+            if (this.shape.obstacle) {
+                directions = this.shape.obstacle[memberIndex] || [];
+            }
+
+            memberIndex++;
+
+            for (let direction of directions) {
                 let neighbor = this._grid.neighborOf([member.q, member.r], direction, {allowOutside: true});
-                if (neighbor && !this._members.has(neighbor)) {
+                if (this.shape.obstacle || (neighbor && !this._members.has(neighbor))) {
                     const cornerIndices = cornerIndicesMap.get(direction);
                     if (cornerIndices) {
                         borders.push(member.corners[cornerIndices[0]], member.corners[cornerIndices[1]]);
